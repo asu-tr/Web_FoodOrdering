@@ -18,16 +18,16 @@
                         <div class="form-group">
                             <label>Ürün Seçiniz:</label>
                             <select name="ProductID" class="form-control">
-                                @foreach (Products prod in ViewBag.Products)
+                                @foreach (Products product in ViewBag.Products)
                                 {
-                                    <option value="@prod.ProductID">@prod.ProductName</option>
+                                    <option value="@product.ProductID">@product.ProductName, @product.Descriptionn</option>
                                 }
                             </select>
                         </div>
 
                         <div class="form-group">
                             <label>Fiyat:</label>
-                            <input type="number" class="form-control" name="Price" />
+                            <input type="text" class="form-control" name="Price" />
                         </div>
 
                         <div class="form-group">

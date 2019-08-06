@@ -110,18 +110,18 @@ namespace Yemeksepetii.Controllers
             Roles.AddUserToRole(Username, RoleName);
             return RedirectToAction("CustomerShow");
         }
-        
 
 
 
-        // SHOW CATEGORIES //
+
+        // SHOW CATEGORIES // LAST MODIFIED: 2019-08-06
         public ActionResult CategoryShow()
         {
-            List<Categories> categories = Context.Baglanti.Categories.ToList();
+            List<Categories> categories = Context.Baglanti.Categories.OrderBy(x => x.CategoryName).ToList();
             return View(categories);
         }
 
-        // DELETE CATEGORY //
+        // DELETE CATEGORY // LAST MODIFIED: 2019-08-06
         [HttpPost]
         public void CategoryDelete(int id)
         {
@@ -130,7 +130,7 @@ namespace Yemeksepetii.Controllers
             Context.Baglanti.SaveChanges();
         }
 
-        // ADD CATEGORY //
+        // ADD CATEGORY // LAST MODIFIED: 2019-08-06
         public ActionResult CategoryAdd()
         {
             return View();
@@ -147,51 +147,45 @@ namespace Yemeksepetii.Controllers
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-        // UNDER CONSTRUCTION, ADD VIEW
+        // SHOW LOCATIONS // LAST MODIFIED: 2019-08-06
         public ActionResult LocationShow()
         {
-            return View();
+            List<Locations> locations = Context.Baglanti.Locations.OrderBy(x => x.City).ToList();
+            return View(locations);
         }
 
-        //construction, add view
-        public ActionResult Locations()
+        //DELETE LOCATION // LAST MODIFIED: 2019-08-06
+        [HttpPost]
+        public void LocationDelete(int locID)
         {
-            return View();
+            Locations location = Context.Baglanti.Locations.FirstOrDefault(x => x.LocationID == locID);
+            Context.Baglanti.Locations.Remove(location);
+            Context.Baglanti.SaveChanges();
         }
 
-        //construction, add view
+        // ADD LOCATION // LAST MODIFIED: 2019-08-06
         public ActionResult LocationAdd()
         {
-            return View();
+            List<Sehirler> cityList = Context.Baglanti.Sehirler.OrderBy(x => x.City).ToList();
+            return View(cityList);
+        }
+        [HttpPost]
+        public ActionResult LocationAdd(Locations location)
+        {
+            Context.Baglanti.Locations.Add(location);
+            Context.Baglanti.SaveChanges();
+
+            return RedirectToAction("LocationShow");
         }
 
-        
+
+
+
+
+
+
+
+
+
     }
 }

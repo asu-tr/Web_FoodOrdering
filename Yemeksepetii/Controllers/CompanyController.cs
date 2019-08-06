@@ -18,59 +18,69 @@ namespace Yemeksepetii.Controllers
             return View();
         }
 
-        
 
 
 
-
-        // SHOW SERVED PRODUCTS //
+        // SHOW SERVED PRODUCTS // LAST MODIFIED: 2019-08-06
         public ActionResult ProductsServedShow()
         {
             string email = Membership.GetUser().Email;
             Users user = Context.Baglanti.Users.FirstOrDefault(x => x.Email == email);
             int sellerID = user.UserID;
 
-            List<ServedProducts> sp = Context.Baglanti.ServedProducts.ToList();
+            List<ServedProducts> servedproducts = Context.Baglanti.ServedProducts.ToList();
             List<Products> products = Context.Baglanti.Products.ToList();
+            List<Categories> categories = Context.Baglanti.Categories.ToList();
 
             var servedProducts =
-                from sprod in sp
-                from prod in products
-                where sprod.SellerID == sellerID
+                from servedproduct in servedproducts
+                from product in products
+                from category in categories
+                where servedproduct.SellerID == sellerID
+                && product.ProductID == servedproduct.ProductID
+                && product.CategoryID == category.CategoryID
                 select new ServedProduct
                 {
-                    ServeID = sprod.ServeID,
-                    ProductName = prod.ProductName,
-                    Price = sprod.Price
+                    ServeID = servedproduct.ServeID,
+                    ProductName = product.ProductName,
+                    Description = product.Descriptionn,
+                    CategoryID = product.CategoryID,
+                    CategoryName = category.CategoryName,
+                    Price = servedproduct.Price
                 };
 
-            IList<ServedProduct> servedProdList = new List<ServedProduct>();
+            var ServedProducts = servedProducts.ToList();
 
-            var sps = servedProducts.ToList();
+            IList<ServedProduct> servedProductList = new List<ServedProduct>();
 
-            foreach (var prod in sps)
+            foreach (var product in ServedProducts)
             {
-                servedProdList.Add(new ServedProduct()
+                servedProductList.Add(new ServedProduct()
                 {
-                    ServeID = prod.ServeID,
-                    ProductName = prod.ProductName,
-                    Price = prod.Price
+                    ServeID = product.ServeID,
+                    ProductName = product.ProductName,
+                    Description = product.Description,
+                    CategoryID = product.CategoryID,
+                    CategoryName = product.CategoryName,
+                    Price = product.Price
                 });
             }
 
-            return View(servedProdList);
+            servedProductList = servedProductList.OrderBy(x=> x.CategoryName).ToList();
+
+            return View(servedProductList);
         }
 
-        // delte served prod //
+        // DELETE SERVED PRODUCT // LAST MODIFIED: 2019-08-05
         [HttpPost]
-        public void ProductsServedDelete(int spID)
+        public void ProductsServedDelete(int sID)
         {
-            ServedProducts spps = Context.Baglanti.ServedProducts.FirstOrDefault(x => x.ServeID == spID);
+            ServedProducts spps = Context.Baglanti.ServedProducts.FirstOrDefault(x => x.ServeID == sID);
             Context.Baglanti.ServedProducts.Remove(spps);
             Context.Baglanti.SaveChanges();
         }
 
-        // add served product //
+        // ADD SERVED PRODUCT // LAST MODIFIED: 2019-08-05
         public ActionResult ProductsServedAdd()
         {
             string email = Membership.GetUser().Email;
@@ -87,10 +97,23 @@ namespace Yemeksepetii.Controllers
         public ActionResult ProductsServedAdd(ServedProducts servedProduct)
         {
             ServedProducts sp = new ServedProducts { ProductID = servedProduct.ProductID, SellerID = servedProduct.SellerID, Price = servedProduct.Price };
-            Context.Baglanti.ServedProducts.Add(servedProduct);
+            Context.Baglanti.ServedProducts.Add(sp);
             Context.Baglanti.SaveChanges();
 
             return RedirectToAction("ProductsServedShow");
         }
+        
+        // ADD PRODUCT // LAST MODIFIED: 2019-08-06
+        public ActionResult ProductAdd()
+        {
+            ViewBag.Categories = Context.Baglanti.Categories.ToList();
+            return View();
+        }
+
+
+
+
+
+
     }
 }

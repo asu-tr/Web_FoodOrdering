@@ -17,7 +17,7 @@ $(document).ready(function(){
 
 	var getMessage = function () {
 		var msgs = ['My name is Inigo Montoya. You killed my father. Prepare to die!',
-		'<div><input class="input-small" value="textbox"/>&nbsp;<a href="/Content/http://johnpapa.net" target="_blank">This is a hyperlink</a></div><div><button type="button" id="okBtn" class="btn btn-primary">Close me</button><button type="button" id="surpriseBtn" class="btn" style="margin: 0 8px 0 8px">Surprise me</button></div>',
+		'<div><input class="input-small" value="textbox"/>&nbsp;<a href="http://johnpapa.net" target="_blank">This is a hyperlink</a></div><div><button type="button" id="okBtn" class="btn btn-primary">Close me</button><button type="button" id="surpriseBtn" class="btn" style="margin: 0 8px 0 8px">Surprise me</button></div>',
 		'Are you the six fingered man?',
 		'Inconceivable!',
 		'I do not think that means what you think it means.',

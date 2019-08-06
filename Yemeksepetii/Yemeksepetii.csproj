@@ -1012,6 +1012,7 @@
     <Compile Include="App_Classes\Customer.cs" />
     <Compile Include="App_Classes\ServedProduct.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="Controllers\ACOController.cs" />
     <Compile Include="Controllers\AdminController.cs" />
     <Compile Include="Controllers\CompanyController.cs" />
     <Compile Include="Controllers\MainController.cs" />
@@ -1132,6 +1133,9 @@
     <Content Include="Views\Admin\CategoryAdd.cshtml" />
     <Content Include="Views\Company\ProductsServedShow.cshtml" />
     <Content Include="Views\Company\ProductsServedAdd.cshtml" />
+    <Content Include="Views\Company\ProductAdd.cshtml" />
+    <Content Include="Views\Admin\LocationShow.cshtml" />
+    <Content Include="Views\Admin\LocationAdd.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -1141,6 +1145,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Views\ACO\" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

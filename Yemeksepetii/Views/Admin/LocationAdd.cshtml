@@ -1,0 +1,45 @@
+﻿
+@{
+    ViewBag.Title = "Konum Ekle";
+    Layout = "~/Views/Shared/MainLayout.cshtml";
+}
+
+@using Yemeksepetii.Models
+@model List<Sehirler>
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="block">
+            <div class="block-heading">
+                <h1 class="JustifyCenter">Yeni Konum Ekle</h1>
+            </div>
+            <div class="block-content-outer">
+                <div class="block-content-inner">
+                    <form role="form" action="/Admin/LocationAdd" id="hidingSuccessForm" method="post">
+
+                        <div class="form-group">
+                            <label>İl:</label>
+                            <select name="City" class="form-control">
+                               @foreach (Sehirler location in Model)
+                                {
+                                    <option value="@location.City">@location.City</option>
+                                }
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label>İlçe:</label>
+                            <input type="text" class="form-control" name="District" />
+                        </div>
+
+                        <div class="form-group">
+                            <button type="submit" class="btn btn-info">Ekle</button>
+                        </div>
+
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+

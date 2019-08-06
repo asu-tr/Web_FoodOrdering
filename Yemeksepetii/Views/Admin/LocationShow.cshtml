@@ -1,0 +1,69 @@
+﻿
+@{
+    ViewBag.Title = "Konumlar";
+    Layout = "~/Views/Shared/MainLayout.cshtml";
+}
+
+@using Yemeksepetii.Models
+@model List<Locations>
+
+<div class="col-md-12">
+    <div class="block-content-outer">
+        <div class="block-content-inner">
+            <div class="table-responsive">
+
+                <table id="datatable-1" class="table table-striped table-hover">
+                    <thead>
+                        <tr>
+                            <th>İl</th>
+                            <th>İlçe</th>
+                            <th>Sil</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (Locations location in Model)
+                        {
+                            <tr>
+                                <td>@location.City</td>
+                                <td>@location.District</td>
+                                <td><a href="#" class="btn btn-danger locDelete" data-id="@location.LocationID">Sil</a></td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section scripts
+{
+    <script>
+        $(".locDelete").click(function () {
+            var result = confirm("Konum Silinsin Mi?");
+            if (result) {
+                var locID = $(this).data("id");
+
+
+
+                $.ajax({
+                    type: "POST",
+                    url: "/Admin/LocationDelete",
+                    data: { locID: locID },
+                    success: function () {
+                        alert("Konum Silindi");
+                        window.location.replace("/Admin/LocationShow");
+                    },
+                    error: function () {
+                        alert("Konum silme esnasında bir hata oluştu.");
+                    }
+                });
+
+            }
+            else {
+
+            }
+        })
+    </script>
+}
+

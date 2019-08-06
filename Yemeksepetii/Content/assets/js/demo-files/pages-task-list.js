@@ -73,7 +73,7 @@ $(document).ready(function(){
 				var tempUserName = taskUsersObj[n].text;
 				var tempUserImage = taskUsersObj[n].image;
 
-				var tempString = '<a href="/Content/#" class="assigned-user"><img class="list-thumbnail" src="' + tempUserImage + '" title="' + tempUserName + '" width="25" height="25" /></a> ';
+				var tempString = '<a href="#" class="assigned-user"><img class="list-thumbnail" src="' + tempUserImage + '" title="' + tempUserName + '" width="25" height="25" /></a> ';
 
 				taskUsersContent.push(tempString);
 			};
@@ -111,7 +111,7 @@ $(document).ready(function(){
 					priorityBadge = "";
 				}
 
-				var newTaskContent = '<li class="task-list-item" style="opacity:0;"><div class="checkbox"><label><input type="checkbox" class="task-list-item-checkbox">' + priorityBadge + optionalBadge + " " + taskTitle + '</label></div><div class="task-item-details">' + taskDetails + '</div><div class="task-item-controls"><a role="button" class="btn btn-info btn-sm show-task" href="/Content/#"><span class="glyphicon glyphicon-chevron-down"></span></a></div><div class="task-item-users">' + taskUsersContent + '</div></li>';
+				var newTaskContent = '<li class="task-list-item" style="opacity:0;"><div class="checkbox"><label><input type="checkbox" class="task-list-item-checkbox">' + priorityBadge + optionalBadge + " " + taskTitle + '</label></div><div class="task-item-details">' + taskDetails + '</div><div class="task-item-controls"><a role="button" class="btn btn-info btn-sm show-task" href="#"><span class="glyphicon glyphicon-chevron-down"></span></a></div><div class="task-item-users">' + taskUsersContent + '</div></li>';
 
 				taskManagerContainer.find(".task-list .attach-here").after(newTaskContent);
 

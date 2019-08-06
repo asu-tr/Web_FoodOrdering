@@ -122,10 +122,10 @@
                 <!-- NOTE TO READER: Accepts the following class(es) "menu-icon-only", "fixed" class -->
                 <div id="mainnav">
                     <ul class="mainnav">
-                        <!-- NOTE TO READER: Accepts the following class(es) "animate" class -->
-                        <!-- kategoriler, yorumlar-->
-                        @if (User.IsInRole("Admin"))
+                        <!-- kategoriler, yorumlar ADD-->
+                       @if (User.IsInRole("Admin"))
                         {
+                            // ANA SAYFA //
                             <li class="menu-item-top">
                                 <a href="/Admin/Main" class="top">
                                     <span class="main-menu-icon">
@@ -135,6 +135,7 @@
                                 </a>
                             </li>
 
+                            // ÜYE YÖNETİMİ //
                             <li class="menu-item-top">
                                 <a href="/Admin/#" class="top">
                                     <span class="main-menu-icon">
@@ -148,6 +149,7 @@
                                 </ul>
                             </li>
 
+                            // ROL YÖNETİMİ //
                             <li class="menu-item-top">
                                 <a href="/Admin/#" class="top">
                                     <span class="main-menu-icon">
@@ -162,6 +164,7 @@
                                 </ul>
                             </li>
 
+                            // KATEGORİ YÖNETİMİ // ////////KAT VE ÜRÜN OLAİBLİR
                             <li class="menu-item-top">
                                 <a href="/Admin/#" class="top">
                                     <span class="main-menu-icon">
@@ -174,13 +177,28 @@
                                     <li><a href="/Admin/CategoryAdd">Kategori Ekle</a></li>
                                 </ul>
                             </li>
+
+                            //KONUM YÖNETİMİ //
+                            <li class="menu-item-top">
+                                <a href="/Admin/#" class="top">
+                                    <span class="main-menu-icon">
+                                        <span aria-hidden="true" class="icon icon-grid-big"></span>
+                                    </span>
+                                    <span class="main-menu-text">Konum Yönetimi</span>
+                                </a>
+                                <ul>
+                                    <li><a href="/Admin/LocationShow">Konumları Görüntüle</a></li>
+                                    <li><a href="/Admin/LocationAdd">Konum Ekle</a></li>
+                                </ul>
+                            </li>
                         }
 
 
 
-                        <!-- siparişler, yorumlar-->
+                        <!-- siparişler, yorumlar add-->
                         @if (User.IsInRole("Company"))
                         {
+                            // ANA SAYFA //
                             <li class="menu-item-top">
                                 <a href="/Company/Main" class="top">
                                     <span class="main-menu-icon">
@@ -190,24 +208,27 @@
                                 </a>
                             </li>
 
+                            // ÜRÜN YÖNETİMİ //
                             <li class="menu-item-top">
                                 <a href="/Company/#" class="top">
                                     <span class="main-menu-icon">
-                                        <span aria-hidden="true" class="icon icon-grid-big"></span>
+                                        <span aria-hidden="true" class="icon icon-number-two"></span>
                                     </span>
                                     <span class="main-menu-text">Ürün Yönetimi</span>
                                 </a>
                                 <ul>
-                                    <li><a href="/Company/ProductsServedShow">Ürünleri Görüntüle</a></li>
-                                    <li><a href="/Company/ProductsServedAdd">Ürün Ekle</a></li>
+                                    <li><a href="/Company/ProductsServedShow">Satıştaki Ürünleri Görüntüle</a></li>
+                                    <li><a href="/Company/ProductsServedAdd">Ürün Satışı Ekle</a></li>
+                                    <li><a href="/Company/ProductAdd">Ürün Ekle</a></li>
                                 </ul>
                             </li>
                         }
 
 
-                        <!--siparişler, yorumlar-->
+                        <!--siparişler, yorumlar add-->
                         @if (User.IsInRole("Customer"))
                         {
+                            // ANA SAYFA //
                             <li class="menu-item-top">
                                 <a href="/Main/Main" class="top">
                                     <span class="main-menu-icon">

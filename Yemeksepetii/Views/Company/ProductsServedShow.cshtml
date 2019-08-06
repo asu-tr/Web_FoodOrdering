@@ -23,18 +23,22 @@
                     <table id="datatable-1" class="table table-striped table-hover">
                         <thead>
                             <tr>
+                                <th>Kategori</th>
                                 <th>Ürün Adı</th>
+                                <th>Ürün Açıklaması</th>
                                 <th>Fiyat</th>
                                 <th>Sil</th>
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach (ServedProduct sp in Model)
+                            @foreach (ServedProduct servedProduct in Model)
                             {
                                 <tr>
-                                    <td>@sp.ProductName</td>
-                                    <td>@sp.Price</td>
-                                    <td><a href="#" class="btn btn-danger spDelete" data-id="@sp.ServeID">Sil</a></td>
+                                    <td>@servedProduct.CategoryName</td>
+                                    <td>@servedProduct.ProductName</td>
+                                    <td>@servedProduct.Description</td>
+                                    <td>@servedProduct.Price</td>
+                                    <td><a href="#" class="btn btn-danger spDelete" data-id="@servedProduct.ServeID">Sil</a></td>
                                 </tr>
                             }
                         </tbody>
@@ -51,14 +55,14 @@
         $(".spDelete").click(function () {
             var result = confirm("Kayıt Silinsin Mi?");
             if (result) {
-                var spID = $(this).data("id");
+                var sID = $(this).data("id");
 
 
 
                 $.ajax({
                     type: "POST",
                     url: "/Company/ProductsServedDelete",
-                    data: {spID: spID},
+                    data: {sID: sID},
                     success: function () {
                         alert("Kayıt Silindi");
                         window.location.replace("/Company/ProductsServedShow");
@@ -75,6 +79,3 @@
         })
     </script>
 }
-
-
-
