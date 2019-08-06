@@ -1,0 +1,35 @@
+﻿
+@{
+    ViewBag.Title = "Kategori Ekle";
+    Layout = "~/Views/Shared/MainLayout.cshtml";
+}
+
+
+@using Yemeksepetii.Models;
+
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="block">
+            <div class="block-heading">
+                <h1 class="JustifyCenter">Yeni Kategori Ekle</h1>
+            </div>
+            <div class="block-content-outer">
+                <div class="block-content-inner">
+                    <form role="form" action="/Admin/CategoryAdd" id="hidingSuccessForm" method="post">
+
+                        <div class="form-group">
+                            <label>Kategori Adı</label>
+                            <input type="text" class="form-control" name="CategoryName" />
+                        </div>
+
+                        <div class="form-group">
+                            <button type="submit" class="btn btn-info">Ekle</button>
+                        </div>
+
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

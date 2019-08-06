@@ -1,0 +1,80 @@
+﻿
+@{
+    ViewBag.Title = "Şirket Listesi";
+    Layout = "~/Views/Shared/MainLayout.cshtml";
+}
+
+@using System.Web.Security
+@using Yemeksepetii.Models
+@model List<MembershipUser>
+
+
+<div class="col-md-12">
+    <div class="block">
+        <div class="block-heading">
+            <div class="block-controls">
+                <span aria-hidden="true" class="icon icon-cross icon-size-medium block-control-remove"></span>
+                <span aria-hidden="true" class="icon icon-arrow-down icon-size-medium block-control-collapse"></span>
+            </div>
+        </div>
+        <div class="block-content-outer">
+            <div class="block-content-inner">
+                <div class="table-responsive">
+
+                    <table id="datatable-1" class="table table-striped table-hover">
+                        <thead>
+                            <tr>
+                                <th>Kullanıcı Adı</th>
+                                <th>E-posta</th>
+                                <th>Kayıt Tarihi</th>
+                                <th>Son Giriş Tarihi</th>
+                                <th>Sil</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                           @foreach (MembershipUser mu in Model)
+                            {
+                                <tr>
+                                    <td>@mu.UserName</td>
+                                    <td>@mu.Email</td>
+                                    <td>@mu.CreationDate</td>
+                                    <td>@mu.LastLoginDate</td>
+                                    <td><a href="#" class="btn btn-danger companyDelete" data-id="@mu.ProviderUserKey">Sil</a></td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section scripts
+{
+    <script>
+        $(".companyDelete").click(function () {
+            var result = confirm("Kayıt Silinsin Mi?");
+            if (result) {
+                var companyid = $(this).data("id");
+
+                $.ajax({
+                    type: "POST",
+                    url: "/Admin/CompanyDelete",
+                    data: { companyid: companyid},
+                    success: function () {
+                        alert("Kayıt Silindi");
+                        window.location.replace("/Admin/CompanyShow");
+                    },
+                    error: function () {
+                        alert("Kayıt silme esnasında bir hata oluştu.");
+                    }
+                });
+
+            }
+            else {
+
+            }
+        })
+    </script>
+}

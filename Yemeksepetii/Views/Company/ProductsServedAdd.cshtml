@@ -1,0 +1,47 @@
+﻿@{
+    ViewBag.Title = "ProductsServedAdd";
+    Layout = "~/Views/Shared/MainLayout.cshtml";
+}
+
+@using Yemeksepetii.Models
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="block">
+            <div class="block-heading">
+                <h1 class="JustifyCenter">Yeni Ürün Satışı Ekle</h1>
+            </div>
+            <div class="block-content-outer">
+                <div class="block-content-inner">
+                    <form role="form" action="/Company/ProductsServedAdd" id="hidingSuccessForm" method="post">
+
+                        <div class="form-group">
+                            <label>Ürün Seçiniz:</label>
+                            <select name="ProductID" class="form-control">
+                                @foreach (Products prod in ViewBag.Products)
+                                {
+                                    <option value="@prod.ProductID">@prod.ProductName</option>
+                                }
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Fiyat:</label>
+                            <input type="number" class="form-control" name="Price" />
+                        </div>
+
+                        <div class="form-group">
+                            <label>Satıcı Kodu:</label>
+                            <input value="@ViewBag.SellerID" name="SellerID" class="disabled"/>
+                        </div>
+
+                        <div class="form-group">
+                            <button type="submit" class="btn btn-info">Ekle</button>
+                        </div>
+
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

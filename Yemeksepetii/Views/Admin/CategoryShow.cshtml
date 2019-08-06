@@ -1,0 +1,74 @@
+﻿
+@{
+    ViewBag.Title = "Kategori Görüntüle";
+    Layout = "~/Views/Shared/MainLayout.cshtml";
+}
+
+@using Yemeksepetii.Models
+@model List<Categories>
+
+
+<div class="col-md-12">
+    <div class="block">
+        <div class="block-heading">
+            <div class="block-controls">
+                <span aria-hidden="true" class="icon icon-cross icon-size-medium block-control-remove"></span>
+                <span aria-hidden="true" class="icon icon-arrow-down icon-size-medium block-control-collapse"></span>
+            </div>
+        </div>
+        <div class="block-content-outer">
+            <div class="block-content-inner">
+                <div class="table-responsive">
+
+                    <table id="datatable-1" class="table table-striped table-hover">
+                        <thead>
+                            <tr>
+                                <th>Kategori Adı</th>
+                                <th>Sil</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (Categories cat in Model)
+                            {
+                                <tr>
+                                    <td>@cat.CategoryName</td>
+                                    <td><a href="#" class="btn btn-danger categoryDelete" data-id="@cat.CategoryID">Sil</a></td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section scripts
+{
+    <script>
+        $(".categoryDelete").click(function () {
+            var result = confirm("Kategori silinsin mi?");
+            if (result) {
+                var categoryid = $(this).data("id");
+
+                $.ajax({
+                    type: "POST",
+                    url: "/Admin/CategoryDelete",
+                    data: { id: categoryid},
+                    success: function () {
+                        alert("Kategori Silindi");
+                        window.location.replace("/Admin/CategoryShow");
+                    },
+                    error: function () {
+                        alert("Kategori silme esnasında bir hata oluştu.");
+                    }
+                });
+
+            }
+            else {
+
+            }
+        })
+    </script>
+}
+

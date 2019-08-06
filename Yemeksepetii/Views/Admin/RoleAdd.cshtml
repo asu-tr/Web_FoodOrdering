@@ -1,0 +1,34 @@
+﻿
+@{
+    ViewBag.Title = "Rol Ekle";
+    Layout = "~/Views/Shared/MainLayout.cshtml";
+}
+
+<div class="row">
+    <div class="col-lg-4">
+        <div class="block">
+            <div class="block-heading">
+                <h2 class="JustifyCenter">Yeni Rol Ekle</h2>
+            </div>
+            <div class="block-content-outer">
+                <div class="block-content-inner">
+
+                    <form role="form" action="/Admin/RoleAdd" id="hidingSuccessForm" method="post">
+
+                        <div class="form-group">
+                            <label>Rol Adı:</label>
+                            <input type="text" class="form-control" name="RoleName" />
+                        </div>
+
+                        <div class="form-group">
+                            <button type="submit" class="btn btn-info">Ekle</button>
+                            <button type="submit" class="btn btn-info" formaction="/Admin/RoleShow">Geri dön</button>
+                        </div>
+
+                    </form>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

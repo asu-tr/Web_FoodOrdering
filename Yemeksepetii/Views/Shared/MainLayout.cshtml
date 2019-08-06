@@ -1,0 +1,271 @@
+﻿
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html lang="tr">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" href="/Content/assets/images/required/ico/favicon.ico">
+    <!-- Fav and touch icons -->
+    <link rel="apple-touch-icon-precomposed" sizes="144x144" href="/Content/assets/images/required/ico/apple-touch-icon-144-precomposed.png">
+    <link rel="apple-touch-icon-precomposed" sizes="114x114" href="/Content/assets/images/required/ico/apple-touch-icon-114-precomposed.png">
+    <link rel="apple-touch-icon-precomposed" sizes="72x72" href="/Content/assets/images/required/ico/apple-touch-icon-72-precomposed.png">
+    <link rel="apple-touch-icon-precomposed" href="/Content/assets/images/required/ico/apple-touch-icon-57-precomposed.png">
+    <link rel="shortcut icon" href="/Content/assets/images/required/ico/favicon.png">
+
+    <title>@ViewBag.Title - Yemeksepeti</title>
+
+    <!-- Required CSS Files -->
+    <link type="text/css" href="/Content/assets/css/required/bootstrap/bootstrap.min.css" rel="stylesheet">
+    <link href='http://fonts.googleapis.com/css?family=Roboto:400,300&subset=latin,latin-ext' rel='stylesheet' type='text/css'>
+    <link type="text/css" href="/Content/assets/js/required/jquery-ui-1.11.0.custom/jquery-ui.min.css" rel="stylesheet" />
+    <link type="text/css" href="/Content/assets/js/required/jquery-ui-1.11.0.custom/jquery-ui.structure.min.css" rel="stylesheet" />
+    <link type="text/css" href="/Content/assets/js/required/jquery-ui-1.11.0.custom/jquery-ui.theme.min.css" rel="stylesheet" />
+    <link type="text/css" href="/Content/assets/css/required/mCustomScrollbar/jquery.mCustomScrollbar.min.css" rel="stylesheet" />
+    <link type="text/css" href="/Content/assets/css/required/icheck/all.css" rel="stylesheet" />
+    <link type="text/css" href="/Content/assets/fonts/metrize-icons/styles-metrize-icons.css" rel="stylesheet">
+
+    <!-- Optional CSS Files -->
+    <!-- add CSS files here -->
+    <!-- More Required CSS Files -->
+    <link type="text/css" href="/Content/assets/css/styles-core.css" rel="stylesheet" />
+    <link type="text/css" href="/Content/assets/css/styles-core-responsive.css" rel="stylesheet" />
+
+    <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+    <script src="/Content/assets/js/required/misc/ie10-viewport-bug-workaround.js"></script>
+</head>
+<body>
+    <div class="container-fluid">
+
+        <!-- START Header Container -->
+        <div id="header-container">
+            <div class="header-bar navbar navbar-inverse" role="navigation">
+                <!-- NOTE TO READER: Accepts the following class(es) "navbar-fixed-top" class -->
+                <div class="container">
+                    <div class="navbar-header">
+                        <!-- START logo -->
+                        <div class="logo">
+                           @if (User.IsInRole("Admin"))
+                            {
+                                <a href="/Admin/Main">
+                                    <img class="default-logo" src="/Content/assets/images/required/logo-default.png" width="156" height="44" alt="Logo" />
+                                    <img class="small-logo" src="/Content/assets/images/required/logo-small.png" width="48" height="44" alt="Logo" />
+                                </a>
+                            }
+                           @if (User.IsInRole("Company"))
+                            {
+                                <a href="/Company/Main">
+                                    <img class="default-logo" src="/Content/assets/images/required/logo-default.png" width="156" height="44" alt="Logo" />
+                                    <img class="small-logo" src="/Content/assets/images/required/logo-small.png" width="48" height="44" alt="Logo" />
+                                </a>
+                            }
+                           @if (User.IsInRole("Customer"))
+                            {
+                                <a href="/Main/Main">
+                                    <img class="default-logo" src="/Content/assets/images/required/logo-default.png" width="156" height="44" alt="Logo" />
+                                    <img class="small-logo" src="/Content/assets/images/required/logo-small.png" width="48" height="44" alt="Logo" />
+                                </a>
+                            }
+                        </div>
+                        <!-- END logo -->
+                        <!-- START Mobile Menu Toggle -->
+                        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                            <span class="sr-only">Toggle navigation</span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                        </button>
+                        <!-- END Mobile Menu Toggle -->
+                        <!-- START Header Info Container -->
+                        <div class="header-info">
+                            <!-- START Header User Profile -->
+                            <div class="header-profile">
+                                <ul class="header-profile-menu">
+                                    <li>
+                                        <a href="/Main/#" class="top">
+                                            <span class="main-menu-text">
+                                                Hoşgeldin @User.Identity.Name
+                                                <i class="icon icon-arrow-down-bold-round icon-size-small"></i>
+                                            </span>
+                                        </a>
+                                        <ul>
+                                            <li>
+                                                <a href="/Welcome/SignOut">
+                                                    <span aria-hidden="true" class="icon icon-arrow-curve-right"></span>
+                                                    <span class="main-text">Çıkış Yap</span>
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    </li>
+                                </ul>
+                            </div>
+                            <!-- END Header User Profile -->
+                        </div>
+                        <!-- END Header Info Container -->
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- END Header Container -->
+
+        <!-- START Body Container -->
+        <div id="body-container">
+            <!-- START Left Column -->
+            <div id="left-column" class="">
+                <!-- NOTE TO READER: Accepts the following class(es) "menu-icon-only", "fixed" class -->
+                <div id="mainnav">
+                    <ul class="mainnav">
+                        <!-- NOTE TO READER: Accepts the following class(es) "animate" class -->
+                        <!-- kategoriler, yorumlar-->
+                        @if (User.IsInRole("Admin"))
+                        {
+                            <li class="menu-item-top">
+                                <a href="/Admin/Main" class="top">
+                                    <span class="main-menu-icon">
+                                        <span aria-hidden="true" class="icon icon-grid-big"></span>
+                                    </span>
+                                    <span class="main-menu-text">Ana Sayfa</span>
+                                </a>
+                            </li>
+
+                            <li class="menu-item-top">
+                                <a href="/Admin/#" class="top">
+                                    <span class="main-menu-icon">
+                                        <span aria-hidden="true" class="icon icon-grid-big"></span>
+                                    </span>
+                                    <span class="main-menu-text">Üye Yönetimi</span>
+                                </a>
+                                <ul>
+                                    <li><a href="/Admin/CustomerShow">Müşterileri Görüntüle</a></li>
+                                    <li><a href="/Admin/CompanyShow">Şirketleri Görüntüle</a></li>
+                                </ul>
+                            </li>
+
+                            <li class="menu-item-top">
+                                <a href="/Admin/#" class="top">
+                                    <span class="main-menu-icon">
+                                        <span aria-hidden="true" class="icon icon-grid-big"></span>
+                                    </span>
+                                    <span class="main-menu-text">Rol Yönetimi</span>
+                                </a>
+                                <ul>
+                                    <li><a href="/Admin/RoleShow">Rolleri Görüntüle</a></li>
+                                    <li><a href="/Admin/RoleAdd">Rol Ekle</a></li>
+                                    <li><a href="/Admin/RoleAssign">Rol Ata</a></li>
+                                </ul>
+                            </li>
+
+                            <li class="menu-item-top">
+                                <a href="/Admin/#" class="top">
+                                    <span class="main-menu-icon">
+                                        <span aria-hidden="true" class="icon icon-grid-big"></span>
+                                    </span>
+                                    <span class="main-menu-text">Kategori Yönetimi</span>
+                                </a>
+                                <ul>
+                                    <li><a href="/Admin/CategoryShow">Kategorileri Görüntüle</a></li>
+                                    <li><a href="/Admin/CategoryAdd">Kategori Ekle</a></li>
+                                </ul>
+                            </li>
+                        }
+
+
+
+                        <!-- siparişler, yorumlar-->
+                        @if (User.IsInRole("Company"))
+                        {
+                            <li class="menu-item-top">
+                                <a href="/Company/Main" class="top">
+                                    <span class="main-menu-icon">
+                                        <span aria-hidden="true" class="icon icon-grid-big"></span>
+                                    </span>
+                                    <span class="main-menu-text">Ana Sayfa</span>
+                                </a>
+                            </li>
+
+                            <li class="menu-item-top">
+                                <a href="/Company/#" class="top">
+                                    <span class="main-menu-icon">
+                                        <span aria-hidden="true" class="icon icon-grid-big"></span>
+                                    </span>
+                                    <span class="main-menu-text">Ürün Yönetimi</span>
+                                </a>
+                                <ul>
+                                    <li><a href="/Company/ProductsServedShow">Ürünleri Görüntüle</a></li>
+                                    <li><a href="/Company/ProductsServedAdd">Ürün Ekle</a></li>
+                                </ul>
+                            </li>
+                        }
+
+
+                        <!--siparişler, yorumlar-->
+                        @if (User.IsInRole("Customer"))
+                        {
+                            <li class="menu-item-top">
+                                <a href="/Main/Main" class="top">
+                                    <span class="main-menu-icon">
+                                        <span aria-hidden="true" class="icon icon-grid-big"></span>
+                                    </span>
+                                    <span class="main-menu-text">Ana Sayfa</span>
+                                </a>
+                            </li>
+                        }
+
+                    </ul>
+                </div>
+            </div>
+            <!-- END Left Column -->
+
+            <!-- START Right Column -->
+            <div id="right-column">
+                <div class="right-column-content">
+
+                    @RenderBody()
+
+                </div>
+
+                <!-- START Footer Container -->
+                <div id="footer-container">
+                    <div class="footer-content">
+                        Copyright &copy; @DateTime.Now.Year Asude. Tüm hakları saklıdır.
+                    </div>
+                </div>
+                <!-- END Footer Container -->
+
+            </div>
+            <!-- END Right Column -->
+
+        </div>
+        <!-- END Body Container -->
+
+    </div><!-- /.container -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <!-- Required JS Files -->
+    <script type="text/javascript" src="/Content/assets/js/required/jquery-1.11.1.min.js"></script>
+    <script type="text/javascript" src="/Content/assets/js/required/jquery-ui-1.11.0.custom/jquery-ui.min.js"></script>
+    <script type="text/javascript" src="/Content/assets/js/required/bootstrap/bootstrap.min.js"></script>
+    <script type="text/javascript" src="/Content/assets/js/required/jquery.easing.1.3-min.js"></script>
+    <script type="text/javascript" src="/Content/assets/js/required/jquery.mCustomScrollbar.min.js"></script>
+    <script type="text/javascript" src="/Content/assets/js/required/misc/jquery.mousewheel-3.0.6.min.js"></script>
+    <script type="text/javascript" src="/Content/assets/js/required/misc/retina.min.js"></script>
+    <script type="text/javascript" src="/Content/assets/js/required/icheck.min.js"></script>
+    <script type="text/javascript" src="/Content/assets/js/required/misc/jquery.ui.touch-punch.min.js"></script>
+    <script type="text/javascript" src="/Content/assets/js/required/circloid-functions.js"></script>
+
+    @RenderSection("scripts", false)
+
+    <!-- Optional JS Files -->
+    <!-- add optional JS plugin files here -->
+    <!-- REQUIRED: User Editable JS Files -->
+    <script type="text/javascript" src="/Content/assets/js/script.js"></script>
+    <!-- add additional User Editable files here -->
+</body>
+</html>
+

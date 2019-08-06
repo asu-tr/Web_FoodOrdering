@@ -1,0 +1,49 @@
+﻿
+@{
+    ViewBag.Title = "RoleAssign";
+    Layout = "~/Views/Shared/MainLayout.cshtml";
+}
+
+
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="block">
+            <div class="block-heading">
+                <h1 class="JustifyCenter">Yeni Rol Ata</h1>
+            </div>
+            <div class="block-content-outer">
+                <div class="block-content-inner">
+                    <form role="form" action="/Admin/RoleAssign" id="hidingSuccessForm" method="post">
+
+                        <div class="form-group">
+                            <label>Kullanıcı Adı:</label>
+                            <select name="Username" class="form-control">
+                               @foreach (MembershipUser mu in ViewBag.Members)
+                                {
+                                    <option value="@mu.UserName">@mu.UserName</option>
+                                }
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Rol:</label>
+                            <select name="RoleName" class="form-control">
+                               @foreach (string rol in ViewBag.Roles)
+                                {
+                                    <option value="@rol">@rol</option>
+                                }
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <button type="submit" class="btn btn-info">Ekle</button>
+                        </div>
+
+                    </form>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
