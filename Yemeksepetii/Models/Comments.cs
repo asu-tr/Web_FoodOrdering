@@ -20,6 +20,7 @@ namespace Yemeksepetii.Models
         [StringLength(20)]
         public string CommentTitle { get; set; }
 
+        [Required]
         [StringLength(150)]
         public string Comment { get; set; }
 

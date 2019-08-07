@@ -14,6 +14,20 @@ namespace Yemeksepetii.Controllers
     {
 
         YS_Model m = new YS_Model();
+        readonly List<Cities> listCities = Context.Baglanti.Cities.ToList();
+        List<Locations> listDistrict = Context.Baglanti.Locations.ToList();
+
+        public ActionResult GetCities()
+        {
+            return Json(listCities, JsonRequestBehavior.AllowGet);
+        }
+
+        public ActionResult GetDistricts(int CityID)
+        {
+            var districts = listDistrict.Where(d => d.CityID == CityID);
+            return Json(districts, JsonRequestBehavior.AllowGet);
+        }
+
 
         // CREATE ACCOUNT // LAST MODIFIED: 2019-08-01
         public ActionResult CreateAccount()
@@ -23,10 +37,8 @@ namespace Yemeksepetii.Controllers
         [HttpPost]
         public ActionResult CreateAccount(Customer c)
         {
-            MembershipCreateStatus status;
-
             Membership.CreateUser(c.Username, c.Password, c.Email,
-                c.Question, c.Answer, true, out status);
+                c.Question, c.Answer, true, out MembershipCreateStatus status);
 
             string message = "";
 
@@ -102,18 +114,17 @@ namespace Yemeksepetii.Controllers
         // CREATE COMPANY //  LAST MODIFIED: 2019-08-06
         public ActionResult CreateCompany()
         {
-            List<Sehirler> citiesList = Context.Baglanti.Sehirler.ToList();
-            citiesList = citiesList.OrderBy(x => x.City).ToList();
+            List<Cities> citiesList = Context.Baglanti.Cities.ToList();
+            citiesList = citiesList.OrderBy(x => x.CityID).ToList();
             ViewBag.Cities = citiesList;
             return View();
         }
         [HttpPost]
         public ActionResult CreateCompany(Company c)
         {
-            MembershipCreateStatus status;
 
             Membership.CreateUser(c.Username, c.Password, c.Email,
-                c.Question, c.Answer, true, out status);
+                c.Question, c.Answer, true, out MembershipCreateStatus status);
 
             string message = "";
 

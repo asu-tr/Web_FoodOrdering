@@ -19,9 +19,7 @@ namespace Yemeksepetii.Models
         [Key]
         public int LocationID { get; set; }
 
-        [Required]
-        [StringLength(15)]
-        public string City { get; set; }
+        public int CityID { get; set; }
 
         [Required]
         [StringLength(20)]
@@ -29,6 +27,8 @@ namespace Yemeksepetii.Models
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<ArrivalTime> ArrivalTime { get; set; }
+
+        public virtual Cities Cities { get; set; }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<MinOrderAmounts> MinOrderAmounts { get; set; }

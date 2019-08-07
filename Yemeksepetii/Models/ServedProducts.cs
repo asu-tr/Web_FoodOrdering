@@ -17,6 +17,9 @@ namespace Yemeksepetii.Models
 
         public double Price { get; set; }
 
+        [StringLength(50)]
+        public string Descriptionn { get; set; }
+
         public virtual Products Products { get; set; }
 
         public virtual Users Users { get; set; }

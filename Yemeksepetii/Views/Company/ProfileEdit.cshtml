@@ -5,32 +5,55 @@
 }
 
 @using Yemeksepetii.Models
+@model Users
 
-<form role="form" class="registration-form form-horizontal" action="/Company/ProfileEdit" id="hidingSuccessForm" method="post">
+<form role="form" class="form-horizontal" action="/Company/ProfileEdit" id="hidingSuccessForm" method="post">
 
     <div class="form-group">
         <label for="inputName" class="col-sm-3 control-label">Firma Adı:</label>
-        <div class="col-sm-9"><input type="text" class="form-control" name="Name" id="inputName" value="@ViewBag.CompanyName" disabled/></div>
+        <div class="col-sm-9"><input type="text" class="form-control" name="Name" id="inputName" value="@ViewBag.CompanyName" disabled /></div>
     </div>
 
     <div class="form-group">
         <label for="inputSurname" class="col-sm-3 control-label">Şube Adı:</label>
-        <div class="col-sm-9"><input type="text" class="form-control" name="Surname" id="inputSurname" value="@ViewBag.CompanyBranch" disabled/></div>
+        <div class="col-sm-9"><input type="text" class="form-control" name="Surname" id="inputSurname" value="@ViewBag.CompanyBranch" disabled /></div>
     </div>
 
     <div class="form-group">
         <label for="inputCity" class="col-sm-3 control-label">Şehir:</label>
-        <div class="col-sm-9"><input type="email" class="form-control" name="City" id="inputCity" value="@ViewBag.City" /></div>
+        <div class="col-sm-9">
+            <select class="form-control" name="City" id="inputCity">
+                <option value="@ViewBag.City">@ViewBag.City</option>
+                @foreach (var city in ViewBag.Cities)
+                {
+                    <option value="@city.City">@city.City</option>
+                }
+            </select>
+        </div>
     </div>
 
     <div class="form-group">
         <label for="inputDistrict" class="col-sm-3 control-label">İlçe:</label>
-        <div class="col-sm-9"><input type="text" class="form-control" name="District" id="inputDistrict" value="@ViewBag.District" /></div>
+        <div class="col-sm-9">
+            <select class="form-control" name="District" id="inputDistrict"></select>
+        </div>
     </div>
 
     <div class="form-group">
         <label for="inputTel" class="col-sm-3 control-label">Telefon:</label>
-        <div class="col-sm-9"><input type="password" class="form-control" name="Tel" min="3" id="inputTel" value="@ViewBag.Telephone" /></div>
+        <div class="col-sm-9"><input type="tel" class="form-control" name="Tel" min="3" id="inputTel" value="@ViewBag.Telephone" /></div>
+    </div>
+
+    <div class="form-group">
+        <input type="hidden" value="@ViewBag.UserID" name="UserID" />
+    </div>
+
+    <div class="form-group">
+        <input type="hidden" value="@ViewBag.UserType" name="UserType" />
+    </div>
+
+    <div class="form-group">
+        <input type="hidden" value="@ViewBag.Email" name="Email" />
     </div>
 
     <div class="form-group">
@@ -39,3 +62,51 @@
 
 </form>
 
+
+
+
+
+
+
+
+
+
+
+
+
+@section scripts {
+    <script type="text/javascript">
+        $(document).ready(function () {
+            // Get a list of categories and a list of products of the first category.
+            $.getJSON('/home/GetCities', null, function (data) {
+                $.each(data, function () {
+                    $('#inputCity').append('<option value=' +
+                      this.CategoryID + '>' + this.CategoryName + '</option>');
+                });
+                $.getJSON('/home/GetDistricts', { intCatID: $('#inputCity').val() }, function (data) {
+                    $.each(data, function () {
+                        $('#inputDistrict').append('<option value=' +
+                          this.ProductID + '>' + this.ProductName + '</option>');
+                    });
+                }).fail(function (jqXHR, textStatus, errorThrown) {
+                    alert('Error getting products!');
+                });
+            }).fail(function (jqXHR, textStatus, errorThrown) {
+                alert('Error getting categories!');
+            });
+
+            // Dropdown list change event.
+            $('#inputCity').change(function () {
+                $('#product option').remove();
+                $.getJSON('/home/GetDistricts', { intCatID: $('#inputCity').val() }, function (data) {
+                    $.each(data, function () {
+                        $('#inputDistrict').append('<option value=' +
+                          this.ProductID + '>' + this.ProductName + '</option>');
+                    });
+                }).fail(function (jqXHR, textStatus, errorThrown) {
+                    alert('Error getting products!');
+                });
+            });
+        });
+    </script>
+}

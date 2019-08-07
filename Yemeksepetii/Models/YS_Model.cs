@@ -25,6 +25,7 @@ namespace Yemeksepetii.Models
         public virtual DbSet<aspnet_Users> aspnet_Users { get; set; }
         public virtual DbSet<aspnet_WebEvent_Events> aspnet_WebEvent_Events { get; set; }
         public virtual DbSet<Categories> Categories { get; set; }
+        public virtual DbSet<Cities> Cities { get; set; }
         public virtual DbSet<CommentAnswers> CommentAnswers { get; set; }
         public virtual DbSet<Comments> Comments { get; set; }
         public virtual DbSet<Locations> Locations { get; set; }
@@ -37,12 +38,6 @@ namespace Yemeksepetii.Models
         public virtual DbSet<Users> Users { get; set; }
         public virtual DbSet<UserTypes> UserTypes { get; set; }
         public virtual DbSet<WorkingHours> WorkingHours { get; set; }
-        public virtual DbSet<MenuTablosu> MenuTablosu { get; set; }
-        public virtual DbSet<Sehirler> Sehirler { get; set; }
-        public virtual DbSet<SiparisTablosu> SiparisTablosu { get; set; }
-        public virtual DbSet<SiparisTablosu_Orderer> SiparisTablosu_Orderer { get; set; }
-        public virtual DbSet<SiparisTablosu_Seller> SiparisTablosu_Seller { get; set; }
-        public virtual DbSet<SunulanYemekler> SunulanYemekler { get; set; }
         public virtual DbSet<UrunTablosu> UrunTablosu { get; set; }
         public virtual DbSet<vw_aspnet_Applications> vw_aspnet_Applications { get; set; }
         public virtual DbSet<vw_aspnet_MembershipUsers> vw_aspnet_MembershipUsers { get; set; }
@@ -53,9 +48,6 @@ namespace Yemeksepetii.Models
         public virtual DbSet<vw_aspnet_WebPartState_Paths> vw_aspnet_WebPartState_Paths { get; set; }
         public virtual DbSet<vw_aspnet_WebPartState_Shared> vw_aspnet_WebPartState_Shared { get; set; }
         public virtual DbSet<vw_aspnet_WebPartState_User> vw_aspnet_WebPartState_User { get; set; }
-        public virtual DbSet<YorumTablosu> YorumTablosu { get; set; }
-        public virtual DbSet<YorumTablosu_Orderer> YorumTablosu_Orderer { get; set; }
-        public virtual DbSet<YorumTablosu_Seller> YorumTablosu_Seller { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
@@ -120,6 +112,15 @@ namespace Yemeksepetii.Models
                 .WithRequired(e => e.Categories)
                 .WillCascadeOnDelete(false);
 
+            modelBuilder.Entity<Cities>()
+                .HasOptional(e => e.Cities1)
+                .WithRequired(e => e.Cities2);
+
+            modelBuilder.Entity<Cities>()
+                .HasMany(e => e.Locations)
+                .WithRequired(e => e.Cities)
+                .WillCascadeOnDelete(false);
+
             modelBuilder.Entity<Locations>()
                 .HasMany(e => e.ArrivalTime)
                 .WithRequired(e => e.Locations)
@@ -157,6 +158,10 @@ namespace Yemeksepetii.Models
                 .HasMany(e => e.ServedProducts)
                 .WithRequired(e => e.Products)
                 .WillCascadeOnDelete(false);
+
+            modelBuilder.Entity<ServedProducts>()
+                .Property(e => e.Descriptionn)
+                .IsFixedLength();
 
             modelBuilder.Entity<Users>()
                 .Property(e => e.Tel)
@@ -219,14 +224,6 @@ namespace Yemeksepetii.Models
                 .WithRequired(e => e.UserTypes)
                 .HasForeignKey(e => e.UserType)
                 .WillCascadeOnDelete(false);
-
-            modelBuilder.Entity<MenuTablosu>()
-                .Property(e => e.Price)
-                .HasPrecision(19, 4);
-
-            modelBuilder.Entity<SunulanYemekler>()
-                .Property(e => e.Price)
-                .HasPrecision(19, 4);
         }
     }
 }

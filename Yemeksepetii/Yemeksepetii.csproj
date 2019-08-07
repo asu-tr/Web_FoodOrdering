@@ -884,7 +884,6 @@
     <Content Include="Content\assets\js\optional\jqvmap\maps\continents\jquery.vmap.south-america.js" />
     <Content Include="Content\assets\js\optional\jqvmap\maps\continents\readme.txt" />
     <Content Include="Content\assets\js\optional\jqvmap\maps\jquery.vmap.algeria.js" />
-    <Content Include="Content\assets\js\optional\jqvmap\maps\jquery.vmap.brazil.js" />
     <Content Include="Content\assets\js\optional\jqvmap\maps\jquery.vmap.europe.js" />
     <Content Include="Content\assets\js\optional\jqvmap\maps\jquery.vmap.france.js" />
     <Content Include="Content\assets\js\optional\jqvmap\maps\jquery.vmap.germany.js" />
@@ -1035,21 +1034,16 @@
     <Compile Include="Models\aspnet_Users.cs" />
     <Compile Include="Models\aspnet_WebEvent_Events.cs" />
     <Compile Include="Models\Categories.cs" />
+    <Compile Include="Models\CitiesView.cs" />
     <Compile Include="Models\CommentAnswers.cs" />
     <Compile Include="Models\Comments.cs" />
     <Compile Include="Models\Locations.cs" />
-    <Compile Include="Models\MenuTablosu.cs" />
     <Compile Include="Models\MinOrderAmounts.cs" />
     <Compile Include="Models\OrderInfo.cs" />
     <Compile Include="Models\Orders.cs" />
     <Compile Include="Models\OrderStats.cs" />
     <Compile Include="Models\Products.cs" />
-    <Compile Include="Models\Sehirler.cs" />
     <Compile Include="Models\ServedProducts.cs" />
-    <Compile Include="Models\SiparisTablosu.cs" />
-    <Compile Include="Models\SiparisTablosu_Orderer.cs" />
-    <Compile Include="Models\SiparisTablosu_Seller.cs" />
-    <Compile Include="Models\SunulanYemekler.cs" />
     <Compile Include="Models\UrunTablosu.cs" />
     <Compile Include="Models\Users.cs" />
     <Compile Include="Models\UserTypes.cs" />
@@ -1063,9 +1057,6 @@
     <Compile Include="Models\vw_aspnet_WebPartState_Shared.cs" />
     <Compile Include="Models\vw_aspnet_WebPartState_User.cs" />
     <Compile Include="Models\WorkingHours.cs" />
-    <Compile Include="Models\YorumTablosu.cs" />
-    <Compile Include="Models\YorumTablosu_Orderer.cs" />
-    <Compile Include="Models\YorumTablosu_Seller.cs" />
     <Compile Include="Models\YS_Model.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -1138,6 +1129,7 @@
     <Content Include="Views\Admin\LocationShow.cshtml" />
     <Content Include="Views\Admin\LocationAdd.cshtml" />
     <Content Include="Views\Company\ProfileEdit.cshtml" />
+    <Content Include="Views\Company\ProductsServedEdit.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

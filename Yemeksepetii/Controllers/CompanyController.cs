@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
+using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Security;
@@ -129,7 +131,7 @@ namespace Yemeksepetii.Controllers
                 {
                     ServeID = servedproduct.ServeID,
                     ProductName = product.ProductName,
-                    Description = product.Descriptionn,
+                    Description = servedproduct.Descriptionn,
                     CategoryID = product.CategoryID,
                     CategoryName = category.CategoryName,
                     Price = servedproduct.Price
@@ -188,7 +190,54 @@ namespace Yemeksepetii.Controllers
 
             return RedirectToAction("ProductsServedShow");
         }
-        
+
+        // EDIT SERVED PRODUCT // LAST MODIFIED: 2019-08-07
+        public ActionResult ProductsServedEdit(int? id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            ServedProducts sp = Context.Baglanti.ServedProducts.Find(id);
+            if (sp == null)
+            {
+                return HttpNotFound();
+            }
+
+            int pid = sp.ProductID;
+
+            Products product = Context.Baglanti.Products.FirstOrDefault(x => x.ProductID == pid);
+            string name = product.ProductName.ToString();
+
+            ViewBag.ProductName = name;
+
+            string email = Membership.GetUser().Email;
+            Users user = Context.Baglanti.Users.FirstOrDefault(x => x.Email == email);
+            int sellerID = user.UserID;
+
+            ViewBag.SellerID = sellerID;
+            ViewBag.ServeID = id;
+            ViewBag.ProductID = pid;
+
+            return View(sp);
+        }
+        [HttpPost]
+        public ActionResult ProductsServedEdit(ServedProducts sp)
+        {
+            int id = sp.ServeID;
+            ServedProducts entityItem = Context.Baglanti.ServedProducts.FirstOrDefault(x => x.ServeID == id);
+            if (entityItem != null)
+            {
+                entityItem.Price = sp.Price;
+                entityItem.Descriptionn = sp.Descriptionn;
+
+                Context.Baglanti.Entry(entityItem).State = EntityState.Modified;
+                Context.Baglanti.SaveChanges();
+                return RedirectToAction("ProductsServedShow");
+            }
+            return View(sp);
+        }
+
         // ADD PRODUCT // LAST MODIFIED: 2019-08-06
         public ActionResult ProductAdd()
         {
@@ -197,32 +246,56 @@ namespace Yemeksepetii.Controllers
         }
 
 
+        
+
+
+
+        
 
 
 
 
 
-
-
-
-
-
-
-
-
-        //undercons
+        //undercons edit profile
         public ActionResult ProfileEdit()
         {
             MembershipUser mu = Membership.GetUser();
             Users company = Context.Baglanti.Users.FirstOrDefault(x => x.Email == mu.Email);
 
+            ViewBag.UserID = company.UserID;
+            ViewBag.UserType = company.UserType;
+            ViewBag.Email = company.Email;
             ViewBag.CompanyName = company.Name;
             ViewBag.CompanyBranch = company.Surname;
-            ViewBag.City = company.City;
-            ViewBag.District = company.District;
             ViewBag.Telephone = company.Tel;
 
-            return View();
+
+            //string city = company.City.ToString();
+            //List<Cities> citiesList = Context.Baglanti.Cities.ToList();
+            //int index = citiesList.FindIndex(x => x.City == city);
+            //citiesList.RemoveAt(index);
+            //citiesList = citiesList.OrderBy(x => x.City).ToList();
+            //ViewBag.Cities = citiesList;
+
+            return View(company);
         }
+        [HttpPost]
+        public ActionResult ProfileEdit(Users company)
+        {
+            int id = company.UserID;
+            Users Company = Context.Baglanti.Users.FirstOrDefault(x => x.UserID == id);
+            if (Company != null)
+            {
+                Company.City = company.City;
+                Company.District = company.District;
+                Company.Tel = company.Tel;
+
+                Context.Baglanti.Entry(Company).State = EntityState.Modified;
+                Context.Baglanti.SaveChanges();
+                return RedirectToAction("Main");
+            }
+            return View(company);
+        }
+        
     }
 }

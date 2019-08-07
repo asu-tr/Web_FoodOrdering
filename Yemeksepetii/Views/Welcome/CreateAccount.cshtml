@@ -115,6 +115,27 @@
                                     <div class="col-sm-9"><input type="password" class="form-control" name="Password" min="3" id="inputPassword" /></div>
                                 </div>
 
+
+
+
+                                <div class="form-group">
+                                    <label for="inputCity" class="col-sm-3 control-label">Şehir:</label>
+                                    <div class="col-sm-9">
+                                        <select class="form-control" name="City" id="inputCity"></select>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="inputDistrict" class="col-sm-3 control-label">İlçe:</label>
+                                    <div class="col-sm-9">
+                                        <select class="form-control" name="District" id="inputDistrict"></select>
+                                    </div>
+                                </div>
+
+
+
+
+
                                 <div class="form-group">
                                     <label for="inputQuestion" class="col-sm-3 control-label">Gizli Soru:</label>
                                     <div class="col-sm-9"><input type="text" class="form-control" name="Question" id="inputQuestion" /></div>
@@ -167,5 +188,40 @@
     <!-- add additional User Editable files here -->
     <!-- Demo JS Files -->
     <script type="text/javascript" src="assets/js/demo-files/pages-signup.js"></script>
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            // Get a list of categories and a list of products of the first category.
+            $.getJSON('/Welcome/GetCities', null, function (data) {
+                $.each(data, function () {
+                    $('#inputCity').append('<option value=' +
+                        this.City + '>' + this.City + '</option>');
+                });
+                $.getJSON('/Welcome/GetDistricts', { City: $('#inputCity').val() }, function (data) {
+                    $.each(data, function () {
+                        $('#inputDistrict').append('<option value=' +
+                            this.LocationID + '>' + this.District + '</option>');
+                    });
+                }).fail(function (jqXHR, textStatus, errorThrown) {
+                    alert('Error getting products!');
+                });
+            }).fail(function (jqXHR, textStatus, errorThrown) {
+                alert('Error getting categories!');
+            });
+
+            // Dropdown list change event.
+            $('#inputCity').change(function () {
+                $('#product option').remove();
+                $.getJSON('/Welcome/GetDistricts', { City: $('#inputCity').val() }, function (data) {
+                    $.each(data, function () {
+                        $('#inputDistrict').append('<option value=' +
+                            this.LocationID + '>' + this.District + '</option>');
+                    });
+                }).fail(function (jqXHR, textStatus, errorThrown) {
+                    alert('Error getting products!');
+                });
+            });
+        });
+    </script>
 </body>
 </html>

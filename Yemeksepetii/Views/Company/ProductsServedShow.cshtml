@@ -5,7 +5,7 @@
 
 @using Yemeksepetii.Models
 @using Yemeksepetii.App_Classes
-@model List<ServedProduct>
+@model IEnumerable<ServedProduct>
 
 
 <div class="col-md-12">
@@ -27,18 +27,21 @@
                                 <th>Ürün Adı</th>
                                 <th>Ürün Açıklaması</th>
                                 <th>Fiyat</th>
-                                <th>Sil</th>
+                                <th></th>
                             </tr>
                         </thead>
                         <tbody>
                             @foreach (ServedProduct servedProduct in Model)
                             {
                                 <tr>
-                                    <td>@servedProduct.CategoryName</td>
-                                    <td>@servedProduct.ProductName</td>
-                                    <td>@servedProduct.Description</td>
-                                    <td>@servedProduct.Price</td>
-                                    <td><a href="#" class="btn btn-danger spDelete" data-id="@servedProduct.ServeID">Sil</a></td>
+                                    <td>@Html.DisplayFor(modelItem => servedProduct.CategoryName)</td>
+                                    <td>@Html.DisplayFor(modelItem => servedProduct.ProductName)</td>
+                                    <td>@Html.DisplayFor(modelItem => servedProduct.Description)</td>
+                                    <td>@Html.DisplayFor(modelItem => servedProduct.Price)</td>
+                                    <td>
+                                        @Html.ActionLink("Düzenle", "/ProductsServedEdit", new { id = servedProduct.ServeID, @class= "btn btn-danger"}) |
+                                        <a href="#" class="btn btn-danger spDelete" data-id="@servedProduct.ServeID">Sil</a>
+                                    </td>
                                 </tr>
                             }
                         </tbody>
