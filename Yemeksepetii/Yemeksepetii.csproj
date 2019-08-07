@@ -1034,7 +1034,7 @@
     <Compile Include="Models\aspnet_Users.cs" />
     <Compile Include="Models\aspnet_WebEvent_Events.cs" />
     <Compile Include="Models\Categories.cs" />
-    <Compile Include="Models\CitiesView.cs" />
+    <Compile Include="Models\Cities.cs" />
     <Compile Include="Models\CommentAnswers.cs" />
     <Compile Include="Models\Comments.cs" />
     <Compile Include="Models\Locations.cs" />

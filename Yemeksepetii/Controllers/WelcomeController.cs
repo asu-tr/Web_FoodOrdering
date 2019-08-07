@@ -14,7 +14,7 @@ namespace Yemeksepetii.Controllers
     {
 
         YS_Model m = new YS_Model();
-        readonly List<Cities> listCities = Context.Baglanti.Cities.ToList();
+        List<Cities> listCities = Context.Baglanti.Cities.ToList();
         List<Locations> listDistrict = Context.Baglanti.Locations.ToList();
 
         public ActionResult GetCities()
@@ -37,8 +37,9 @@ namespace Yemeksepetii.Controllers
         [HttpPost]
         public ActionResult CreateAccount(Customer c)
         {
+            MembershipCreateStatus status;
             Membership.CreateUser(c.Username, c.Password, c.Email,
-                c.Question, c.Answer, true, out MembershipCreateStatus status);
+                c.Question, c.Answer, true, out status);
 
             string message = "";
 
@@ -96,7 +97,9 @@ namespace Yemeksepetii.Controllers
                     UserType = 3,
                     Name = c.Name,
                     Surname = c.Surname,
-                    Email = c.Email
+                    Email = c.Email,
+                    Address = c.Address,
+                    LocationID = c.LocationID
                 });
 
                 m.SaveChanges();
@@ -122,9 +125,10 @@ namespace Yemeksepetii.Controllers
         [HttpPost]
         public ActionResult CreateCompany(Company c)
         {
+            MembershipCreateStatus status;
 
             Membership.CreateUser(c.Username, c.Password, c.Email,
-                c.Question, c.Answer, true, out MembershipCreateStatus status);
+                c.Question, c.Answer, true, out status);
 
             string message = "";
 

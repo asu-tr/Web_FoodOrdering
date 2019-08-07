@@ -14,5 +14,7 @@ namespace Yemeksepetii.App_Classes
         public string Password { get; set; }
         public string Question { get; set; }
         public string Answer { get; set; }
+        public string Address { get; set; }
+        public int LocationID { get; set; }
     }
 }

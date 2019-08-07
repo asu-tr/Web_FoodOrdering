@@ -150,7 +150,7 @@ namespace Yemeksepetii.Controllers
         // SHOW LOCATIONS // LAST MODIFIED: 2019-08-06
         public ActionResult LocationShow()
         {
-            List<Locations> locations = Context.Baglanti.Locations.OrderBy(x => x.City).ToList();
+            List<Locations> locations = Context.Baglanti.Locations.OrderBy(x => x.CityID).ToList();
             return View(locations);
         }
 
@@ -177,15 +177,5 @@ namespace Yemeksepetii.Controllers
 
             return RedirectToAction("LocationShow");
         }
-
-
-
-
-
-
-
-
-
-
     }
 }

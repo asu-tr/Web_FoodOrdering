@@ -115,7 +115,10 @@
                                     <div class="col-sm-9"><input type="password" class="form-control" name="Password" min="3" id="inputPassword" /></div>
                                 </div>
 
-
+                                <div class="form-group">
+                                    <label for="inputAddress" class="col-sm-3 control-label">Adres:</label>
+                                    <div class="col-sm-9"><textarea type="text" class="form-control" name="Surname" id="inputAddress" ></textarea></div>
+                                </div>
 
 
                                 <div class="form-group">
@@ -195,7 +198,7 @@
             $.getJSON('/Welcome/GetCities', null, function (data) {
                 $.each(data, function () {
                     $('#inputCity').append('<option value=' +
-                        this.City + '>' + this.City + '</option>');
+                        this.CityID + '>' + this.CityName + '</option>');
                 });
                 $.getJSON('/Welcome/GetDistricts', { City: $('#inputCity').val() }, function (data) {
                     $.each(data, function () {
@@ -211,7 +214,7 @@
 
             // Dropdown list change event.
             $('#inputCity').change(function () {
-                $('#product option').remove();
+                $('#inputDistrict option').remove();
                 $.getJSON('/Welcome/GetDistricts', { City: $('#inputCity').val() }, function (data) {
                     $.each(data, function () {
                         $('#inputDistrict').append('<option value=' +

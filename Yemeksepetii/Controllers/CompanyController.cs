@@ -286,8 +286,8 @@ namespace Yemeksepetii.Controllers
             Users Company = Context.Baglanti.Users.FirstOrDefault(x => x.UserID == id);
             if (Company != null)
             {
-                Company.City = company.City;
-                Company.District = company.District;
+                //Company.City = company.City;
+                //Company.District = company.District;
                 Company.Tel = company.Tel;
 
                 Context.Baglanti.Entry(Company).State = EntityState.Modified;

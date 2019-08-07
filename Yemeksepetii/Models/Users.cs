@@ -44,12 +44,6 @@ namespace Yemeksepetii.Models
         [StringLength(100)]
         public string Address { get; set; }
 
-        [StringLength(15)]
-        public string City { get; set; }
-
-        [StringLength(20)]
-        public string District { get; set; }
-
         public int? LocationID { get; set; }
 
         [StringLength(15)]

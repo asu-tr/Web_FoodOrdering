@@ -113,10 +113,6 @@ namespace Yemeksepetii.Models
                 .WillCascadeOnDelete(false);
 
             modelBuilder.Entity<Cities>()
-                .HasOptional(e => e.Cities1)
-                .WithRequired(e => e.Cities2);
-
-            modelBuilder.Entity<Cities>()
                 .HasMany(e => e.Locations)
                 .WithRequired(e => e.Cities)
                 .WillCascadeOnDelete(false);
