@@ -12,11 +12,97 @@ namespace Yemeksepetii.Controllers
     [Authorize(Roles = "Company")]
     public class CompanyController : Controller
     {
-        //edit
+        // ANA SAYFA //
         public ActionResult Main()
         {
+            string email = Membership.GetUser().Email;
+            Users company = Context.Baglanti.Users.FirstOrDefault(x => x.Email == email);
+            string Company = company.Name + ", " + company.Surname;
+            ViewBag.CompanyName = Company;
+
+            int CompanyID = company.UserID;
+            List<Orders> orders = Context.Baglanti.Orders.ToList();
+            List<OrderStats> orderStats = Context.Baglanti.OrderStats.ToList();
+            List<OrderInfo> orderInfos = Context.Baglanti.OrderInfo.ToList();
+            List<Comments> comments = Context.Baglanti.Comments.ToList();
+
+            var companyOrders =
+                from order in orders
+                from stat in orderStats
+                from info in orderInfos
+                from comment in comments
+                where order.SellerID == CompanyID
+                && order.OrderStatusID == stat.StatID
+                && order.OrderID == info.OrderID
+                && order.OrderID == comment.OrderID
+                select new Order
+                {
+                    OrderID = order.OrderID,
+                    OrderTime = order.OrderTime,
+                    OrdererID = order.OrdererID,
+                    OrderStatus = stat.StatText,
+                    Price = info.Price,
+                    Comment = comment.Comment,
+                    CommentAnswered = comment.Answered
+                };
+
+            var CompanyOrders = companyOrders.ToList();
+            IList<Order> companyOrdersList = new List<Order>();
+
+            int waitingOrderCount = 0;
+
+            double totalProfit = 0;
+
+            int commentCount = 0;
+            int unansweredCommentCount = 0;
+
+            foreach (var order in CompanyOrders)
+            {
+                if (order.OrderStatus == "Hazırlanıyor" || order.OrderStatus == "Yolda")
+                {
+                    waitingOrderCount = waitingOrderCount + 1;
+                }
+
+                if (order.OrderStatus == "Tamamlandı")
+                {
+                    totalProfit = totalProfit + order.Price;
+                }
+
+                if (order.Comment != "")
+                {
+                    commentCount = commentCount + 1;
+
+                    if (order.CommentAnswered == 0)
+                    {
+                        unansweredCommentCount = unansweredCommentCount + 1;
+                    }
+                }
+
+                companyOrdersList.Add(new Order()
+                {
+                    OrderID = order.OrderID,
+                    OrderTime = order.OrderTime,
+                    OrdererID = order.OrdererID,
+                    OrderStatus = order.OrderStatus
+                });
+            }
+
+            ViewBag.WaitingOrderCount = waitingOrderCount;
+
+            companyOrdersList = companyOrdersList.OrderBy(x => x.OrderID).ToList();
+            ViewBag.Orders = companyOrdersList;
+
+            int orderCount = companyOrdersList.Count;
+            ViewBag.OrderCount = orderCount;
+
+            ViewBag.TotalProfit = totalProfit;
+            ViewBag.UnansweredCommentCount = unansweredCommentCount;
+            ViewBag.CommentCount = commentCount;
+            
+
             return View();
         }
+
 
 
 
@@ -115,5 +201,28 @@ namespace Yemeksepetii.Controllers
 
 
 
+
+
+
+
+
+
+
+
+
+        //undercons
+        public ActionResult ProfileEdit()
+        {
+            MembershipUser mu = Membership.GetUser();
+            Users company = Context.Baglanti.Users.FirstOrDefault(x => x.Email == mu.Email);
+
+            ViewBag.CompanyName = company.Name;
+            ViewBag.CompanyBranch = company.Surname;
+            ViewBag.City = company.City;
+            ViewBag.District = company.District;
+            ViewBag.Telephone = company.Tel;
+
+            return View();
+        }
     }
 }

@@ -15,8 +15,7 @@ namespace Yemeksepetii.Models
 
         public int OrdererLocationID { get; set; }
 
-        [Column(TypeName = "money")]
-        public decimal MOA { get; set; }
+        public double MOA { get; set; }
 
         public virtual Locations Locations { get; set; }
 

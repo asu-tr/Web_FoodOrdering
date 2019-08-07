@@ -12,6 +12,6 @@ namespace Yemeksepetii.App_Classes
         public string Description { get; set; }
         public int CategoryID { get; set; }
         public string CategoryName { get; set; }
-        public decimal Price { get; set; }
+        public double Price { get; set; }
     }
 }

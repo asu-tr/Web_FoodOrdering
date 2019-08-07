@@ -1,4 +1,7 @@
-﻿<!DOCTYPE html>
+﻿@using Yemeksepetii.Models
+@using Yemeksepetii.App_Classes
+
+<!DOCTYPE html>
 <html lang="tr">
 <head>
     <meta charset="utf-8">
@@ -95,6 +98,18 @@
                                 <div class="form-group">
                                     <label for="inputBranch" class="col-sm-3 control-label">Şube Adı:</label>
                                     <div class="col-sm-9"><input type="text" class="form-control" name="Branch" id="inputBranch" /></div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="inputCity" class="col-sm-3 control-label">Şehir:</label>
+                                    <div class="col-sm-9">
+                                        <select name="City" id="inputCity">
+                                           @foreach (var city in ViewBag.Cities)
+                                            {
+                                               <option value="@city.City">@city.City</option>
+                                            }
+                                        </select>
+                                    </div>
                                 </div>
 
                                 <div class="form-group">

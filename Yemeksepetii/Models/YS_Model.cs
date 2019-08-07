@@ -25,10 +25,9 @@ namespace Yemeksepetii.Models
         public virtual DbSet<aspnet_Users> aspnet_Users { get; set; }
         public virtual DbSet<aspnet_WebEvent_Events> aspnet_WebEvent_Events { get; set; }
         public virtual DbSet<Categories> Categories { get; set; }
+        public virtual DbSet<CommentAnswers> CommentAnswers { get; set; }
         public virtual DbSet<Comments> Comments { get; set; }
         public virtual DbSet<Locations> Locations { get; set; }
-        public virtual DbSet<MenuContent> MenuContent { get; set; }
-        public virtual DbSet<Menus> Menus { get; set; }
         public virtual DbSet<MinOrderAmounts> MinOrderAmounts { get; set; }
         public virtual DbSet<OrderInfo> OrderInfo { get; set; }
         public virtual DbSet<Orders> Orders { get; set; }
@@ -133,23 +132,6 @@ namespace Yemeksepetii.Models
                 .HasForeignKey(e => e.OrdererLocationID)
                 .WillCascadeOnDelete(false);
 
-            modelBuilder.Entity<Menus>()
-                .Property(e => e.Price)
-                .HasPrecision(19, 4);
-
-            modelBuilder.Entity<Menus>()
-                .HasMany(e => e.MenuContent)
-                .WithRequired(e => e.Menus)
-                .WillCascadeOnDelete(false);
-
-            modelBuilder.Entity<MinOrderAmounts>()
-                .Property(e => e.MOA)
-                .HasPrecision(19, 4);
-
-            modelBuilder.Entity<OrderInfo>()
-                .Property(e => e.Price)
-                .HasPrecision(19, 4);
-
             modelBuilder.Entity<Orders>()
                 .HasMany(e => e.Comments)
                 .WithRequired(e => e.Orders)
@@ -167,7 +149,7 @@ namespace Yemeksepetii.Models
                 .WillCascadeOnDelete(false);
 
             modelBuilder.Entity<Products>()
-                .HasMany(e => e.MenuContent)
+                .HasMany(e => e.OrderInfo)
                 .WithRequired(e => e.Products)
                 .WillCascadeOnDelete(false);
 
@@ -175,10 +157,6 @@ namespace Yemeksepetii.Models
                 .HasMany(e => e.ServedProducts)
                 .WithRequired(e => e.Products)
                 .WillCascadeOnDelete(false);
-
-            modelBuilder.Entity<ServedProducts>()
-                .Property(e => e.Price)
-                .HasPrecision(19, 4);
 
             modelBuilder.Entity<Users>()
                 .Property(e => e.Tel)
@@ -203,12 +181,6 @@ namespace Yemeksepetii.Models
             modelBuilder.Entity<Users>()
                 .HasMany(e => e.Comments1)
                 .WithRequired(e => e.Users1)
-                .HasForeignKey(e => e.SellerID)
-                .WillCascadeOnDelete(false);
-
-            modelBuilder.Entity<Users>()
-                .HasMany(e => e.Menus)
-                .WithRequired(e => e.Users)
                 .HasForeignKey(e => e.SellerID)
                 .WillCascadeOnDelete(false);
 

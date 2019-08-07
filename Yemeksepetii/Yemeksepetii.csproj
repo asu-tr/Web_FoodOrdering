@@ -1007,9 +1007,11 @@
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="App_Classes\City.cs" />
     <Compile Include="App_Classes\Company.cs" />
     <Compile Include="App_Classes\Context.cs" />
     <Compile Include="App_Classes\Customer.cs" />
+    <Compile Include="App_Classes\Order.cs" />
     <Compile Include="App_Classes\ServedProduct.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\ACOController.cs" />
@@ -1033,10 +1035,9 @@
     <Compile Include="Models\aspnet_Users.cs" />
     <Compile Include="Models\aspnet_WebEvent_Events.cs" />
     <Compile Include="Models\Categories.cs" />
+    <Compile Include="Models\CommentAnswers.cs" />
     <Compile Include="Models\Comments.cs" />
     <Compile Include="Models\Locations.cs" />
-    <Compile Include="Models\MenuContent.cs" />
-    <Compile Include="Models\Menus.cs" />
     <Compile Include="Models\MenuTablosu.cs" />
     <Compile Include="Models\MinOrderAmounts.cs" />
     <Compile Include="Models\OrderInfo.cs" />
@@ -1136,6 +1137,7 @@
     <Content Include="Views\Company\ProductAdd.cshtml" />
     <Content Include="Views\Admin\LocationShow.cshtml" />
     <Content Include="Views\Admin\LocationAdd.cshtml" />
+    <Content Include="Views\Company\ProfileEdit.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

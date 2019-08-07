@@ -29,6 +29,8 @@ namespace Yemeksepetii.Models
 
         public int TasteScore { get; set; }
 
+        public int Answered { get; set; }
+
         public virtual Users Users { get; set; }
 
         public virtual Orders Orders { get; set; }

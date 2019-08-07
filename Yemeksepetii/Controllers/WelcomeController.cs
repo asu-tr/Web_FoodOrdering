@@ -99,9 +99,12 @@ namespace Yemeksepetii.Controllers
 
 
 
-        // CREATE COMPANY //  LAST MODIFIED: 2019-08-02
+        // CREATE COMPANY //  LAST MODIFIED: 2019-08-06
         public ActionResult CreateCompany()
         {
+            List<Sehirler> citiesList = Context.Baglanti.Sehirler.ToList();
+            citiesList = citiesList.OrderBy(x => x.City).ToList();
+            ViewBag.Cities = citiesList;
             return View();
         }
         [HttpPost]

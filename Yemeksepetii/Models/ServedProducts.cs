@@ -15,8 +15,7 @@ namespace Yemeksepetii.Models
 
         public int SellerID { get; set; }
 
-        [Column(TypeName = "money")]
-        public decimal Price { get; set; }
+        public double Price { get; set; }
 
         public virtual Products Products { get; set; }
 

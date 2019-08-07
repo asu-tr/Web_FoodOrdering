@@ -1,0 +1,41 @@
+﻿
+@{
+    ViewBag.Title = "ProfileEdit";
+    Layout = "~/Views/Shared/MainLayout.cshtml";
+}
+
+@using Yemeksepetii.Models
+
+<form role="form" class="registration-form form-horizontal" action="/Company/ProfileEdit" id="hidingSuccessForm" method="post">
+
+    <div class="form-group">
+        <label for="inputName" class="col-sm-3 control-label">Firma Adı:</label>
+        <div class="col-sm-9"><input type="text" class="form-control" name="Name" id="inputName" value="@ViewBag.CompanyName" disabled/></div>
+    </div>
+
+    <div class="form-group">
+        <label for="inputSurname" class="col-sm-3 control-label">Şube Adı:</label>
+        <div class="col-sm-9"><input type="text" class="form-control" name="Surname" id="inputSurname" value="@ViewBag.CompanyBranch" disabled/></div>
+    </div>
+
+    <div class="form-group">
+        <label for="inputCity" class="col-sm-3 control-label">Şehir:</label>
+        <div class="col-sm-9"><input type="email" class="form-control" name="City" id="inputCity" value="@ViewBag.City" /></div>
+    </div>
+
+    <div class="form-group">
+        <label for="inputDistrict" class="col-sm-3 control-label">İlçe:</label>
+        <div class="col-sm-9"><input type="text" class="form-control" name="District" id="inputDistrict" value="@ViewBag.District" /></div>
+    </div>
+
+    <div class="form-group">
+        <label for="inputTel" class="col-sm-3 control-label">Telefon:</label>
+        <div class="col-sm-9"><input type="password" class="form-control" name="Tel" min="3" id="inputTel" value="@ViewBag.Telephone" /></div>
+    </div>
+
+    <div class="form-group">
+        <div class="col-sm-offset-3 col-sm-9"><button type="submit" class="btn btn-info">Güncelle</button></div>
+    </div>
+
+</form>
+

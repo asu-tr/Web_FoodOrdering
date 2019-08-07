@@ -14,7 +14,6 @@ namespace Yemeksepetii.Models
             ArrivalTime = new HashSet<ArrivalTime>();
             Comments = new HashSet<Comments>();
             Comments1 = new HashSet<Comments>();
-            Menus = new HashSet<Menus>();
             MinOrderAmounts = new HashSet<MinOrderAmounts>();
             Orders = new HashSet<Orders>();
             Orders1 = new HashSet<Orders>();
@@ -72,9 +71,6 @@ namespace Yemeksepetii.Models
         public virtual ICollection<Comments> Comments1 { get; set; }
 
         public virtual Locations Locations { get; set; }
-
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Menus> Menus { get; set; }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<MinOrderAmounts> MinOrderAmounts { get; set; }
