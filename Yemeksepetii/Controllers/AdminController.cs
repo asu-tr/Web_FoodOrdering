@@ -166,7 +166,7 @@ namespace Yemeksepetii.Controllers
         // ADD LOCATION // LAST MODIFIED: 2019-08-06
         public ActionResult LocationAdd()
         {
-            List<CitiesView> cityList = Context.Baglanti.CitiesView.OrderBy(x => x.City).ToList();
+            List<Cities> cityList = Context.Baglanti.Cities.OrderBy(x => x.CityName).ToList();
             return View(cityList);
         }
         [HttpPost]
