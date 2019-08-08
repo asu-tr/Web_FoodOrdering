@@ -22,14 +22,9 @@
                         </div>
 
                         <div class="form-group">
-                            <label>Ürün Açıklaması:</label>
-                            <input type="text" class="form-control" name="Descriptionn" />
-                        </div>
-
-                        <div class="form-group">
                             <label>Kategori</label>
                             <select class="form-control" name="CategoryID" style="width: 200px;">
-                               @foreach (Categories kategori in ViewBag.Categories)
+                                @foreach (Categories kategori in ViewBag.Categories)
                                 {
                                     <option value="@kategori.CategoryID">@kategori.CategoryName</option>
                                 }

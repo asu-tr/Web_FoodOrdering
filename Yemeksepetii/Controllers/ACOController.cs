@@ -11,8 +11,12 @@ namespace Yemeksepetii.Controllers
     [Authorize(Roles = "Admin, Company")]
     public class ACOController : Controller
     {
-
         // ADD PRODUCT // LAST MODIFIED: 2019-08-06
+        public ActionResult ProductAdd()
+        {
+            ViewBag.Categories = Context.Baglanti.Categories.ToList();
+            return View();
+        }
         [HttpPost]
         public ActionResult ProductAdd(Products product)
         {

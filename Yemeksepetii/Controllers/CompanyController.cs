@@ -178,7 +178,7 @@ namespace Yemeksepetii.Controllers
             }).ToList(), JsonRequestBehavior.AllowGet);
         }
 
-        // ADD SERVED PRODUCT // LAST MODIFIED: 2019-08-05
+        // ADD SERVED PRODUCT // LAST MODIFIED: 2019-08-08
         public ActionResult ProductsServedAdd()
         {
             string email = Membership.GetUser().Email;
@@ -196,7 +196,7 @@ namespace Yemeksepetii.Controllers
         [HttpPost]
         public ActionResult ProductsServedAdd(ServedProducts servedProduct)
         {
-            ServedProducts sp = new ServedProducts { ProductID = servedProduct.ProductID, SellerID = servedProduct.SellerID, Price = servedProduct.Price };
+            ServedProducts sp = new ServedProducts { ProductID = servedProduct.ProductID, SellerID = servedProduct.SellerID, Price = servedProduct.Price, Descriptionn = servedProduct.Descriptionn };
             Context.Baglanti.ServedProducts.Add(sp);
             Context.Baglanti.SaveChanges();
 
@@ -250,10 +250,31 @@ namespace Yemeksepetii.Controllers
             return View(sp);
         }
 
-        // ADD PRODUCT // LAST MODIFIED: 2019-08-06
-        public ActionResult ProductAdd()
+        
+
+
+        
+
+
+
+
+
+        // under construction SHOW ORDERS //
+        public ActionResult OrderShow()
         {
-            ViewBag.Categories = Context.Baglanti.Categories.ToList();
+            string email = Membership.GetUser().Email;
+            Users user = Context.Baglanti.Users.FirstOrDefault(x => x.Email == email);
+            int sellerID = user.UserID;
+
+            List<Orders> orders = Context.Baglanti.Orders.Where(o => o.SellerID == sellerID).ToList();
+            ViewBag.Orders = orders;
+
+            return View();
+        }
+        
+        // under construction UPDATE ORDERS //
+        public ActionResult OrderUpdate(int OrderID)
+        {
             return View();
         }
 
@@ -262,7 +283,19 @@ namespace Yemeksepetii.Controllers
 
 
 
-        
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
