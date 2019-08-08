@@ -13,25 +13,20 @@ namespace Yemeksepetii.Controllers
     public class WelcomeController : Controller
     {
 
-        YS_Model m = new YS_Model();
-        List<Cities> listCities = Context.Baglanti.Cities.ToList();
-        List<Locations> listDistrict = Context.Baglanti.Locations.ToList();
-
-        public ActionResult GetCities()
+        // GET DISTRICTS OF SELECTED CITY // LAST MODIFIED: 2019-08-08
+        public ActionResult loadDistrict(int cityID)
         {
-            return Json(listCities, JsonRequestBehavior.AllowGet);
+            return Json(Context.Baglanti.Locations.Where(d => d.CityID == cityID).Select(d => new
+            {
+                LocationID = d.LocationID,
+                District = d.District
+            }).ToList(), JsonRequestBehavior.AllowGet);
         }
 
-        public ActionResult GetDistricts(int CityID)
-        {
-            var districts = listDistrict.Where(d => d.CityID == CityID);
-            return Json(districts, JsonRequestBehavior.AllowGet);
-        }
-
-
-        // CREATE ACCOUNT // LAST MODIFIED: 2019-08-01
+        // CREATE ACCOUNT // LAST MODIFIED: 2019-08-07
         public ActionResult CreateAccount()
         {
+            ViewBag.Cities = Context.Baglanti.Cities.OrderBy(c => c.CityName).ToList();
             return View();
         }
         [HttpPost]
@@ -90,9 +85,9 @@ namespace Yemeksepetii.Controllers
             {
 
                 Roles.AddUserToRole(c.Username, "Customer");
-                
+
                 //ADDING TO DB//
-                m.Users.Add(new Users
+                Context.Baglanti.Users.Add(new Users
                 {
                     UserType = 3,
                     Name = c.Name,
@@ -102,7 +97,7 @@ namespace Yemeksepetii.Controllers
                     LocationID = c.LocationID
                 });
 
-                m.SaveChanges();
+                Context.Baglanti.SaveChanges();
 
                 ViewBag.Message = "Hesabınız başarıyla oluşturuldu!";
                 return RedirectToAction("SignIn");
@@ -114,12 +109,10 @@ namespace Yemeksepetii.Controllers
 
 
 
-        // CREATE COMPANY //  LAST MODIFIED: 2019-08-06
+        // CREATE COMPANY //  LAST MODIFIED: 2019-08-07
         public ActionResult CreateCompany()
         {
-            List<Cities> citiesList = Context.Baglanti.Cities.ToList();
-            citiesList = citiesList.OrderBy(x => x.CityID).ToList();
-            ViewBag.Cities = citiesList;
+            ViewBag.Cities = Context.Baglanti.Cities.OrderBy(c => c.CityName).ToList();
             return View();
         }
         [HttpPost]
@@ -181,7 +174,7 @@ namespace Yemeksepetii.Controllers
                 Roles.AddUserToRole(c.Username, "Company");
 
                 //ADDING TO DB//
-                m.Users.Add(new Users
+                Context.Baglanti.Users.Add(new Users
                 {
                     UserType = 2,
                     Name = c.Name,
@@ -189,7 +182,7 @@ namespace Yemeksepetii.Controllers
                     Email = c.Email
                 });
 
-                m.SaveChanges();
+                Context.Baglanti.SaveChanges();
 
                 ViewBag.Message = "Şirket başarıyla oluşturuldu!";
                 return RedirectToAction("SignIn");

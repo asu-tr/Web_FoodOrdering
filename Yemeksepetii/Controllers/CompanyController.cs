@@ -168,6 +168,16 @@ namespace Yemeksepetii.Controllers
             Context.Baglanti.SaveChanges();
         }
 
+        // GET PRODUCTS OF SELECTED CATEGORY // LAST MODIFIED: 2019-08-08
+        public ActionResult loadCategory(int categoryID)
+        {
+            return Json(Context.Baglanti.Products.Where(d => d.CategoryID == categoryID).Select(d => new
+            {
+                ProductID = d.ProductID,
+                ProductName = d.ProductName
+            }).ToList(), JsonRequestBehavior.AllowGet);
+        }
+
         // ADD SERVED PRODUCT // LAST MODIFIED: 2019-08-05
         public ActionResult ProductsServedAdd()
         {
@@ -175,6 +185,8 @@ namespace Yemeksepetii.Controllers
             Users user = Context.Baglanti.Users.FirstOrDefault(x => x.Email == email);
             int sellerID = user.UserID;
             ViewBag.SellerID = sellerID;
+
+            ViewBag.Categories = Context.Baglanti.Categories.OrderBy(c => c.CategoryName).ToList();
 
             List<Products> products = Context.Baglanti.Products.ToList();
             ViewBag.Products = products;

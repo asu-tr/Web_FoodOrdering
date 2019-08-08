@@ -57,7 +57,43 @@
     <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
     <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
     <![endif]-->
+
+    <script src="~/Content/assets/js/required/jquery-1.11.1.min.js" type="text/javascript"></script>
+
+    <script type="text/javascript">
+
+        $(document).ready(function () {
+
+            $('#city').on('change', function () {
+
+                var id = $('#city option:selected').val();
+                $.ajax({
+                    type: 'GET',
+                    data: { cityID: id },
+                    url: '@Url.Action("loadDistrict", "Welcome")',
+                    success: function (result) {
+
+                        var s = '<option value="-1">İlçe seçiniz</option>';
+
+                        for (var i = 0; i < result.length; i++) {
+                            s += '<option value="' + result[i].LocationID + '">' + result[i].District +'</option>';
+                        }
+                        $('#district').html(s);
+                    },
+                    error: function () {
+                        alert('hata');
+                    }
+                });
+
+            });
+
+        });
+
+    </script>
+
+
 </head>
+
 <body>
     <div class="container-fluid">
         <div id="body-container">
@@ -100,15 +136,25 @@
                                     <div class="col-sm-9"><input type="text" class="form-control" name="Branch" id="inputBranch" /></div>
                                 </div>
 
+                                <!-- CITY -->
                                 <div class="form-group">
-                                    <label for="inputCity" class="col-sm-3 control-label">Şehir:</label>
+                                    <label for="city" class="col-sm-3 control-label">Şehir:</label>
                                     <div class="col-sm-9">
-                                        <select name="City" id="inputCity">
-                                           @foreach (var city in ViewBag.Cities)
+                                        <select class="form-control" name="City" id="city">
+                                            <option value="-1">Şehir Seçiniz</option>
+                                            @foreach (var city in ViewBag.Cities)
                                             {
-                                               <option value="@city.City">@city.City</option>
+                                                <option value="@city.CityID">@city.CityName</option>
                                             }
                                         </select>
+                                    </div>
+                                </div>
+
+                                <!-- LOCATIONID / DISTRICT -->
+                                <div class="form-group">
+                                    <label for="district" class="col-sm-3 control-label">İlçe:</label>
+                                    <div class="col-sm-9">
+                                        <select class="form-control" name="LocationID" id="district"></select>
                                     </div>
                                 </div>
 

@@ -15,14 +15,27 @@
                 <div class="block-content-inner">
                     <form role="form" action="/Company/ProductsServedAdd" id="hidingSuccessForm" method="post">
 
+
                         <div class="form-group">
-                            <label>Ürün Seçiniz:</label>
-                            <select name="ProductID" class="form-control">
-                                @foreach (Products product in ViewBag.Products)
+                            <label>Kategori Seçiniz:</label>
+                            <select class="form-control" id="category">
+                                @foreach (var cat in ViewBag.Categories)
                                 {
-                                    <option value="@product.ProductID">@product.ProductName, @product.Descriptionn</option>
+                                    <option value="@cat.CategoryID">@cat.CategoryName</option>
                                 }
                             </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Ürün Seçiniz:</label>
+                            <select class="form-control" name="ProductID" id="product">
+                                <!-- ajax <3 -->
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Açıklama:</label>
+                            <input type="text" class="form-control" name="Descriptionn" />
                         </div>
 
                         <div class="form-group">
@@ -32,7 +45,7 @@
 
                         <div class="form-group">
                             <label>Satıcı Kodu:</label>
-                            <input value="@ViewBag.SellerID" name="SellerID" class="disabled"/>
+                            <input value="@ViewBag.SellerID" name="SellerID" disabled />
                         </div>
 
                         <div class="form-group">
@@ -45,3 +58,40 @@
         </div>
     </div>
 </div>
+
+
+@section scripts
+    {
+    <script src="~/Content/assets/js/required/jquery-1.11.1.min.js" type="text/javascript"></script>
+
+    <script type="text/javascript">
+
+        $(document).ready(function () {
+
+            $('#category').on('change', function () {
+
+                var id = $('#category option:selected').val();
+                $.ajax({
+                    type: 'GET',
+                    data: { categoryID: id },
+                    url: '@Url.Action("loadCategory", "Company")',
+                    success: function (result) {
+
+                        var s = '<option value="-1">Ürün seçiniz</option>';
+
+                        for (var i = 0; i < result.length; i++) {
+                            s += '<option value="' + result[i].ProductID + '">' + result[i].ProductName +'</option>';
+                        }
+                        $('#product').html(s);
+                    },
+                    error: function () {
+                        alert('hata');
+                    }
+                });
+
+            });
+
+        });
+
+    </script>
+}

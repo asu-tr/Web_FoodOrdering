@@ -54,6 +54,44 @@
     <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
     <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
     <![endif]-->
+
+    <script src="~/Content/assets/js/required/jquery-1.11.1.min.js" type="text/javascript"></script>
+
+    <script type="text/javascript">
+
+        $(document).ready(function () {
+
+            $('#city').on('change', function () {
+
+                var id = $('#city option:selected').val();
+                $.ajax({
+                    type: 'GET',
+                    data: { cityID: id },
+                    url: '@Url.Action("loadDistrict", "Welcome")',
+                    success: function (result) {
+                        
+                        var s = '<option value="-1">İlçe seçiniz</option>';
+
+                        for (var i = 0; i < result.length; i++) {
+                            s += '<option value="' + result[i].LocationID + '">' + result[i].District +'</option>';
+                        }
+                        $('#district').html(s);
+                    },
+                    error: function () {
+                        alert('hata');
+                    }
+                });
+
+            });
+
+        });
+
+    </script>
+
+
+
+
+
 </head>
 <body>
     <div class="container-fluid">
@@ -90,65 +128,77 @@
 
                             <form role="form" class="registration-form form-horizontal" action="/Welcome/CreateAccount" id="hidingSuccessForm" method="post">
 
+                                <!-- NAME -->
                                 <div class="form-group">
                                     <label for="inputName" class="col-sm-3 control-label">Ad:</label>
                                     <div class="col-sm-9"><input type="text" class="form-control" name="Name" id="inputName" /></div>
                                 </div>
 
+                                <!-- SURNAME -->
                                 <div class="form-group">
                                     <label for="inputSurname" class="col-sm-3 control-label">Soyad:</label>
                                     <div class="col-sm-9"><input type="text" class="form-control" name="Surname" id="inputSurname" /></div>
                                 </div>
 
+                                <!-- EMAIL -->
                                 <div class="form-group">
                                     <label for="inputEmail" class="col-sm-3 control-label">E-posta:</label>
                                     <div class="col-sm-9"><input type="email" class="form-control" name="Email" id="inputEmail" /></div>
                                 </div>
 
+                                <!-- USERNAME -->
                                 <div class="form-group">
                                     <label for="inputUsername" class="col-sm-3 control-label">Kullanıcı Adı:</label>
                                     <div class="col-sm-9"><input type="text" class="form-control" name="Username" id="inputUsername" /></div>
                                 </div>
 
+                                <!-- PASSWORD -->
                                 <div class="form-group">
                                     <label for="inputPassword" class="col-sm-3 control-label">Şifre:</label>
                                     <div class="col-sm-9"><input type="password" class="form-control" name="Password" min="3" id="inputPassword" /></div>
                                 </div>
 
+                                <!-- ADDRESS -->
                                 <div class="form-group">
                                     <label for="inputAddress" class="col-sm-3 control-label">Adres:</label>
-                                    <div class="col-sm-9"><textarea type="text" class="form-control" name="Surname" id="inputAddress" ></textarea></div>
+                                    <div class="col-sm-9"><textarea type="text" class="form-control" name="Address" id="inputAddress"></textarea></div>
                                 </div>
 
-
+                                <!-- CITY -->
                                 <div class="form-group">
-                                    <label for="inputCity" class="col-sm-3 control-label">Şehir:</label>
+                                    <label for="city" class="col-sm-3 control-label">Şehir:</label>
                                     <div class="col-sm-9">
-                                        <select class="form-control" name="City" id="inputCity"></select>
+                                        <select class="form-control" name="City" id="city">
+                                            <option value="-1">Şehir Seçiniz</option>
+                                            @foreach (var city in ViewBag.Cities)
+                                            {
+                                                <option value="@city.CityID">@city.CityName</option>
+                                            }
+                                        </select>
                                     </div>
                                 </div>
 
+                                <!-- LOCATIONID / DISTRICT -->
                                 <div class="form-group">
-                                    <label for="inputDistrict" class="col-sm-3 control-label">İlçe:</label>
+                                    <label for="district" class="col-sm-3 control-label">İlçe:</label>
                                     <div class="col-sm-9">
-                                        <select class="form-control" name="District" id="inputDistrict"></select>
+                                        <select class="form-control" name="LocationID" id="district"></select>
                                     </div>
                                 </div>
 
-
-
-
-
+                                <!-- QUESTION -->
                                 <div class="form-group">
                                     <label for="inputQuestion" class="col-sm-3 control-label">Gizli Soru:</label>
                                     <div class="col-sm-9"><input type="text" class="form-control" name="Question" id="inputQuestion" /></div>
                                 </div>
 
+                                <!-- ANSWER -->
                                 <div class="form-group">
                                     <label for="inputAnswer" class="col-sm-3 control-label">Gizli Cevap:</label>
                                     <div class="col-sm-9"><input type="text" class="form-control" name="Answer" id="inputAnswer" /></div>
                                 </div>
 
+                                <!-- BUTTON -->
                                 <div class="form-group">
                                     <div class="col-sm-offset-3 col-sm-9"><button type="submit" class="btn btn-info">Hesap Oluştur</button></div>
                                 </div>
@@ -191,40 +241,6 @@
     <!-- add additional User Editable files here -->
     <!-- Demo JS Files -->
     <script type="text/javascript" src="assets/js/demo-files/pages-signup.js"></script>
-
-    <script type="text/javascript">
-        $(document).ready(function () {
-            // Get a list of categories and a list of products of the first category.
-            $.getJSON('/Welcome/GetCities', null, function (data) {
-                $.each(data, function () {
-                    $('#inputCity').append('<option value=' +
-                        this.CityID + '>' + this.CityName + '</option>');
-                });
-                $.getJSON('/Welcome/GetDistricts', { City: $('#inputCity').val() }, function (data) {
-                    $.each(data, function () {
-                        $('#inputDistrict').append('<option value=' +
-                            this.LocationID + '>' + this.District + '</option>');
-                    });
-                }).fail(function (jqXHR, textStatus, errorThrown) {
-                    alert('Error getting products!');
-                });
-            }).fail(function (jqXHR, textStatus, errorThrown) {
-                alert('Error getting categories!');
-            });
-
-            // Dropdown list change event.
-            $('#inputCity').change(function () {
-                $('#inputDistrict option').remove();
-                $.getJSON('/Welcome/GetDistricts', { City: $('#inputCity').val() }, function (data) {
-                    $.each(data, function () {
-                        $('#inputDistrict').append('<option value=' +
-                            this.LocationID + '>' + this.District + '</option>');
-                    });
-                }).fail(function (jqXHR, textStatus, errorThrown) {
-                    alert('Error getting products!');
-                });
-            });
-        });
-    </script>
+    
 </body>
 </html>
