@@ -44,7 +44,7 @@ namespace Yemeksepetii.Models
         [StringLength(100)]
         public string Address { get; set; }
 
-        public int? LocationID { get; set; }
+        public int LocationID { get; set; }
 
         [StringLength(15)]
         public string Tel { get; set; }

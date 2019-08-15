@@ -14,6 +14,7 @@ namespace Yemeksepetii.Controllers
     [Authorize(Roles = "Company")]
     public class CompanyController : Controller
     {
+
         // ANA SAYFA //
         public ActionResult Main()
         {
@@ -22,7 +23,7 @@ namespace Yemeksepetii.Controllers
             string Company = company.Name + ", " + company.Surname;
             ViewBag.CompanyName = Company;
 
-            int CompanyID = company.UserID;
+            int CompanyID = company.LocationID;
             List<Orders> orders = Context.Baglanti.Orders.ToList();
             List<OrderStats> orderStats = Context.Baglanti.OrderStats.ToList();
             List<OrderInfo> orderInfos = Context.Baglanti.OrderInfo.ToList();
@@ -250,10 +251,171 @@ namespace Yemeksepetii.Controllers
             return View(sp);
         }
 
-        
+
+
+
+
+        // SHOW SERVED LOCATION & ORDER TIME // LAST MODIFIED: 2019-08-09
+        public ActionResult SellerBuyerRelShow()
+        {
+            string email = Membership.GetUser().Email;
+            Users user = Context.Baglanti.Users.FirstOrDefault(x => x.Email == email);
+            int sellerID = user.UserID;
+
+            ViewBag.SellerID = sellerID;
+
+            List<ArrivalTime> arrivaltimes = Context.Baglanti.ArrivalTime.ToList();
+            List<ArrivalTimes> timetexts = Context.Baglanti.ArrivalTimes.ToList();
+            List<MinOrderAmounts> moas = Context.Baglanti.MinOrderAmounts.ToList();
+            List<Locations> districts = Context.Baglanti.Locations.ToList();
+
+
+            var rels =
+                from arrivaltime in arrivaltimes
+                from moa in moas
+                from dist in districts
+                from tt in timetexts
+                where arrivaltime.SellerID == sellerID
+                && moa.SellerID == arrivaltime.SellerID
+                && moa.OrdererLocationID == arrivaltime.OrdererLocationID
+                && dist.LocationID == arrivaltime.OrdererLocationID
+                && tt.ArrivalTimesID == arrivaltime.ArrivalTimeID
+                select new SBRel
+                {
+                    SellerID = arrivaltime.SellerID,
+                    OrdererLocationID = arrivaltime.OrdererLocationID,
+                    OrdererDistrict = dist.District,
+                    MOA = moa.MOA,
+                    ArrivalTimeID = arrivaltime.ArrivalTimeID,
+                    ArrivalText = tt.ArrivalTimeText
+                };
+
+            var Rels = rels.ToList();
+
+            IList<SBRel> RelList = new List<SBRel>();
+
+            foreach (var rel in Rels)
+            {
+                RelList.Add(new SBRel()
+                {
+                    SellerID = rel.SellerID,
+                    OrdererLocationID = rel.OrdererLocationID,
+                    OrdererDistrict = rel.OrdererDistrict,
+                    MOA = rel.MOA,
+                    ArrivalTimeID = rel.ArrivalTimeID,
+                    ArrivalText = rel.ArrivalText
+                });
+            }
+
+            return View(RelList);
+        }
+
+        // DELETE SERVED LOCATION & ORDER TIME // LAST MODIFIED: 2019-08-09
+        [HttpPost]
+        public void SellerBuyerRelDelete(int SellerID, int OLID)
+        {
+            ArrivalTime arrivalTime = Context.Baglanti.ArrivalTime.FirstOrDefault(x => x.SellerID == SellerID && x.OrdererLocationID == OLID);
+            MinOrderAmounts MOA = Context.Baglanti.MinOrderAmounts.FirstOrDefault(x => x.SellerID == SellerID && x.OrdererLocationID == OLID);
+
+            Context.Baglanti.ArrivalTime.Remove(arrivalTime);
+            Context.Baglanti.MinOrderAmounts.Remove(MOA);
+
+            Context.Baglanti.SaveChanges();
+        }
+
+        // ADD SERVED LOCATION & ORDER TIME // LAST MODIFIED: 2019-08-09
+        public ActionResult SellerBuyerRelAdd()
+        {
+            string email = Membership.GetUser().Email;
+            Users user = Context.Baglanti.Users.FirstOrDefault(x => x.Email == email);
+            int sellerID = user.UserID;
+            ViewBag.SellerID = sellerID;
+
+            int sellerLocID = user.LocationID;
+            int cityID = Context.Baglanti.Locations.Where(l => l.LocationID == sellerLocID).Select(l => l.CityID).FirstOrDefault();
+            ViewBag.Districts = Context.Baglanti.Locations.Where(l => l.CityID == cityID).OrderBy(l => l.District).ToList();
+
+            ViewBag.ArrivalTimes = Context.Baglanti.ArrivalTimes.ToList();
+
+            return View();
+        }
+        [HttpPost]
+        public ActionResult SellerBuyerRelAdd(SBRel rel)
+        {
+            ArrivalTime atime = new ArrivalTime { SellerID = rel.SellerID, OrdererLocationID = rel.OrdererLocationID, ArrivalTimeID = rel.ArrivalTimeID };
+            Context.Baglanti.ArrivalTime.Add(atime);
+
+            MinOrderAmounts moa = new MinOrderAmounts { SellerID = rel.SellerID, OrdererLocationID = rel.OrdererLocationID, MOA = rel.MOA };
+            Context.Baglanti.MinOrderAmounts.Add(moa);
+
+            Context.Baglanti.SaveChanges();
+
+            return RedirectToAction("SellerBuyerRelShow");
+        }
+
+        // EDIT SERVED LOCATION & ORDER TIME // LAST MODIFIED: 2019-08-09
+        public ActionResult SellerBuyerRelEdit(int? SellerID, int? OLID)
+        {
+            if (SellerID == null || OLID == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+
+            ArrivalTime arrivalTime = Context.Baglanti.ArrivalTime.FirstOrDefault(x => x.SellerID == SellerID && x.OrdererLocationID == OLID);
+            MinOrderAmounts minOrderAmounts = Context.Baglanti.MinOrderAmounts.FirstOrDefault(x => x.SellerID == SellerID && x.OrdererLocationID == OLID);
+
+            string Dst = Context.Baglanti.Locations.Where(x => x.LocationID == OLID).Select(x => x.District).ToString();
+            string Txt = Context.Baglanti.ArrivalTimes.Where(x => x.ArrivalTimesID == arrivalTime.ArrivalTimeID).Select(x => x.ArrivalTimeText).ToString();
+
+
+            if (arrivalTime == null || minOrderAmounts == null)
+            {
+                return HttpNotFound();
+            }
+
+            SBRel sbRel = new SBRel { SellerID = arrivalTime.SellerID, OrdererLocationID = arrivalTime.OrdererLocationID, OrdererDistrict = Dst, MOA = minOrderAmounts.MOA, ArrivalTimeID = arrivalTime.ArrivalTimeID, ArrivalText = Txt };
+
+            ViewBag.Times = Context.Baglanti.ArrivalTimes.ToList();
+            ViewBag.District = sbRel.OrdererDistrict.ToString();
+
+            return View(sbRel);
+        }
+        [HttpPost]
+        public ActionResult SellerBuyerRelEdit(SBRel sbrel)
+        {
+            int SellerID = sbrel.SellerID;
+            int OLID = sbrel.OrdererLocationID;
+
+            ArrivalTime arrivalTime = Context.Baglanti.ArrivalTime.FirstOrDefault(x => x.SellerID == SellerID && x.OrdererLocationID == OLID);
+            MinOrderAmounts moa = Context.Baglanti.MinOrderAmounts.FirstOrDefault(x => x.SellerID == SellerID && x.OrdererLocationID == OLID);
+
+            if (arrivalTime != null && moa != null)
+            {
+                arrivalTime.ArrivalTimeID = sbrel.ArrivalTimeID;
+                moa.MOA = sbrel.MOA;
+
+                Context.Baglanti.Entry(arrivalTime).State = EntityState.Modified;
+                Context.Baglanti.Entry(moa).State = EntityState.Modified;
+
+                Context.Baglanti.SaveChanges();
+                return RedirectToAction("SellerBuyerRelShow");
+            }
+            return RedirectToAction("SellerBuyerRelShow");
+        }
+
+
+
+
+
+
+
+
 
 
         
+        
+
+
 
 
 
@@ -286,18 +448,7 @@ namespace Yemeksepetii.Controllers
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
+        
 
 
 
@@ -307,7 +458,7 @@ namespace Yemeksepetii.Controllers
             MembershipUser mu = Membership.GetUser();
             Users company = Context.Baglanti.Users.FirstOrDefault(x => x.Email == mu.Email);
 
-            ViewBag.UserID = company.UserID;
+            ViewBag.UserID = company.LocationID;
             ViewBag.UserType = company.UserType;
             ViewBag.Email = company.Email;
             ViewBag.CompanyName = company.Name;
@@ -327,8 +478,8 @@ namespace Yemeksepetii.Controllers
         [HttpPost]
         public ActionResult ProfileEdit(Users company)
         {
-            int id = company.UserID;
-            Users Company = Context.Baglanti.Users.FirstOrDefault(x => x.UserID == id);
+            int id = company.LocationID;
+            Users Company = Context.Baglanti.Users.FirstOrDefault(x => x.LocationID == id);
             if (Company != null)
             {
                 //Company.City = company.City;

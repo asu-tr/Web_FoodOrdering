@@ -1010,6 +1010,7 @@
     <Compile Include="App_Classes\Context.cs" />
     <Compile Include="App_Classes\Customer.cs" />
     <Compile Include="App_Classes\Order.cs" />
+    <Compile Include="App_Classes\SBRel.cs" />
     <Compile Include="App_Classes\ServedProduct.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\ACOController.cs" />
@@ -1131,6 +1132,9 @@
     <Content Include="Views\ACO\ProductAdd.cshtml" />
     <Content Include="Views\Company\OrderShow.cshtml" />
     <Content Include="Views\Company\OrderUpdate.cshtml" />
+    <Content Include="Views\Company\SellerBuyerRelAdd.cshtml" />
+    <Content Include="Views\Company\SellerBuyerRelShow.cshtml" />
+    <Content Include="Views\Company\SellerBuyerRelEdit.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

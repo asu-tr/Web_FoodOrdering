@@ -108,7 +108,7 @@ namespace Yemeksepetii.Controllers
         public ActionResult RoleAssign(string Username, string RoleName)
         {
             Roles.AddUserToRole(Username, RoleName);
-            return RedirectToAction("CustomerShow");
+            return RedirectToAction("RoleAssign");
         }
 
 

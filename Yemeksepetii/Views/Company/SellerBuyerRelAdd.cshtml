@@ -1,0 +1,86 @@
+﻿
+@{
+    ViewBag.Title = "SellerBuyerRelAdd";
+    Layout = "~/Views/Shared/MainLayout.cshtml";
+}
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="block">
+            <div class="block-heading">
+                <h1 class="JustifyCenter">Yeni Satış Yapılacak Konum Ekle</h1>
+            </div>
+            <div class="block-content-outer">
+                <div class="block-content-inner">
+                    <form role="form" action="/Company/SellerBuyerRelAdd" id="hidingSuccessForm" method="post">
+
+                        <div hidden>
+                            <input name="SellerID" value="@ViewBag.SellerID" />
+                        </div>
+
+                        <div class="form-group">
+                            <label>İlçe Seçiniz:</label>
+                            <select class="form-control" name="OrdererLocationID" id="ordererLocationID">
+                                @foreach (var loc in ViewBag.Districts)
+                                {
+                                    <option value="@loc.LocationID">@loc.District</option>
+                                }
+                            </select>
+                        </div>
+
+                        <div hidden>
+                            <input name="OrdererDistrict" value="" id="ordererDistrict" />
+                        </div>
+
+                        <div class="form-group">
+                            <label>Minimum Sipariş Tutarı Belirleyiniz:</label>
+                            <input type="text" class="form-control" name="MOA" />
+                        </div>
+
+                        <div class="form-group">
+                            <label>Tahmini Varış Süresi Seçiniz:</label>
+                            <select class="form-control" name="ArrivalTimeID" id="ArrivalTimeID">
+                                @foreach (var atime in ViewBag.ArrivalTimes)
+                                {
+                                    <option value="@atime.ArrivalTimesID">@atime.ArrivalTimeText</option>
+                                }
+                            </select>
+                        </div>
+
+                        <div hidden>
+                            <input name="ArrivalText" value="" id="ArrivalText" />
+                        </div>
+
+                        <div class="form-group">
+                            <button type="submit" class="btn btn-info">Ekle</button>
+                        </div>
+
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section scripts
+    {
+    <script src="~/Content/assets/js/required/jquery-1.11.1.min.js" type="text/javascript"></script>
+
+    <script type="text/javascript">
+
+        $('#ordererLocationID').change( function () {
+            var dName = $(this).find("option:selected").text();
+            $('#ordererDistrict').val(dName);
+        });
+
+    </script>
+
+    <script type="text/javascript">
+
+        $('#ArrivalTimeID').change(function () {
+            var aText = $(this).find("option:selected").text();
+            $('#ArrivalText').val(aText);
+        });
+
+    </script>
+}
